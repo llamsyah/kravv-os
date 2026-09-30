@@ -1,0 +1,17 @@
+{
+  "name": "kravv-os",
+  "private": true,
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @kravv/web",
+    "build": "npm run build --workspace @kravv/web",
+    "typecheck": "npm run typecheck --workspace @kravv/web",
+    "format": "prettier --write \"apps/web/**/*.{ts,tsx,css,json}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"apps/web/**/*.{ts,tsx,css,json}\" --ignore-path .gitignore"
+  },
+  "devDependencies": {
+    "prettier": "3.9.9"
+  }
+}

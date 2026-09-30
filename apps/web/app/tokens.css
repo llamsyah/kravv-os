@@ -1,0 +1,15 @@
+:root {
+  color-scheme: dark;
+  --background: #0c1421;
+  --surface: #142033;
+  --text: #e7edf7;
+  --muted: #99a8be;
+  --blue: #315e9e;
+  --blue-bright: #9bc2ff;
+  --border: #819abe20;
+  --radius: 12px;
+  --radius-sm: 7px;
+  --font-sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --shadow: 0 8px 35px #0000000d;
+  --motion: 180ms ease;
+}

@@ -1,0 +1,1 @@
+"""KRAVV local application core."""
