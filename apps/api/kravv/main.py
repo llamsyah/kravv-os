@@ -29,7 +29,7 @@ def create_app(db_path: Path | None = None, source_path: Path | None = None):
             store.save(read_study(ROOT / "fixtures/initial-study.json"))
         yield
 
-    app = FastAPI(title="KRAVV OS", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="ALLVERRA ROOM", version="0.1.0", lifespan=lifespan)
 
     @app.exception_handler(sqlite3.Error)
     async def database_error(request: Request, error: sqlite3.Error):

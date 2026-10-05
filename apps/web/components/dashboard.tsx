@@ -212,7 +212,11 @@ export default function Dashboard() {
         Skip to Home
       </a>
       <aside className="navigation-rail">
-        <a href="#overview" className="brand-mark" aria-label="KRAVV OS Home">
+        <a
+          href="#overview"
+          className="brand-mark"
+          aria-label="ALLVERRA ROOM Home"
+        >
           <Layers3 size={27} strokeWidth={1.5} />
         </a>
         <nav aria-label="Main navigation">
@@ -257,8 +261,12 @@ export default function Dashboard() {
           />
         </div>
         <header className="topbar">
-          <a href="#overview" className="wordmark" aria-label="KRAVV OS Home">
-            KRAVV<span>OS</span>
+          <a
+            href="#overview"
+            className="wordmark"
+            aria-label="ALLVERRA ROOM Home"
+          >
+            ALLVERRA<span>ROOM</span>
           </a>
           <button
             className="command-trigger"
@@ -442,7 +450,7 @@ export default function Dashboard() {
                 >
                   <div className="week-domain-heading">
                     <HeartPulse size={16} strokeWidth={1.6} />
-                    <h3 id="week-health-heading">Movement</h3>
+                    <h3 id="week-health-heading">Health</h3>
                   </div>
                   <div
                     className="movement-week"
@@ -461,7 +469,7 @@ export default function Dashboard() {
                     ))}
                   </div>
                   <p className="week-unavailable">No movement data</p>
-                  <DomainDoorway label="Open movement" />
+                  <DomainDoorway label="Open health" />
                 </section>
                 <section
                   className="week-context"
@@ -474,7 +482,7 @@ export default function Dashboard() {
                   <div
                     className="context-week"
                     role="img"
-                    aria-label="Event data unavailable for this week"
+                    aria-label="Context event data unavailable for this week"
                   >
                     {weekDays.map((day) => (
                       <span key={day.toISOString()} className="context-day">
@@ -487,7 +495,7 @@ export default function Dashboard() {
                       </span>
                     ))}
                   </div>
-                  <p className="week-unavailable">No events data</p>
+                  <p className="week-unavailable">No context data</p>
                   <DomainDoorway label="Open context" />
                 </section>
               </div>
@@ -590,7 +598,7 @@ export default function Dashboard() {
               <dd>Not connected</dd>
             </div>
             <div>
-              <dt>Events</dt>
+              <dt>Context</dt>
               <dd>Not connected</dd>
             </div>
             <div>
@@ -604,7 +612,7 @@ export default function Dashboard() {
             </p>
           )}
           <div className="settings-footer">
-            <span>KRAVV OS · V0.1</span>
+            <span>ALLVERRA ROOM · V0.1</span>
             <button
               className="text-button"
               disabled={busy}

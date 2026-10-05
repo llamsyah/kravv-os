@@ -24,7 +24,7 @@ export async function request<T>(path: string, method = "GET"): Promise<T> {
     });
   } catch {
     throw new Error(
-      "Cannot reach KRAVV. Check that the local backend is running, then try again.",
+      "Cannot reach ALLVERRA ROOM. Check that the local backend is running, then try again.",
     );
   }
   if (!response.ok) {
@@ -32,7 +32,7 @@ export async function request<T>(path: string, method = "GET"): Promise<T> {
     throw new Error(
       typeof body?.detail === "string"
         ? body.detail
-        : "KRAVV is unavailable. Your saved progress is safe; try again.",
+        : "ALLVERRA ROOM is unavailable. Your saved progress is safe; try again.",
     );
   }
   return response.json() as Promise<T>;

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Home · KRAVV OS",
-  description: "Study, health, and events in KRAVV OS.",
+  title: "Home · ALLVERRA ROOM",
+  description: "Study, Health, and Context in ALLVERRA ROOM.",
 };
 
 export default function RootLayout({
