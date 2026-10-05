@@ -1,518 +1,784 @@
-# AGENTS.md — KRAVV OS
+# ALLVERRA ROOM — Agent Instructions
 
-## Project Identity
-
-KRAVV OS is a personal operating system in the fictional KRAVVIENT product family.
-
-Its purpose is to connect personal data from multiple sources into one stable internal model and interface.
-
-KRAVV OS is not a clone of KRAVV-IENT.
-
-KRAVV-IENT is more corporate, analytical, restrained, and terminal-like.
-
-KRAVV OS should feel personal, adaptive, interactive, ambient, and visually alive.
+**File:** `AGENTS.md`  
+**Status:** Active baseline  
+**Version:** V0.1  
+**Purpose:** Define how Codex and other coding agents should work inside the ALLVERRA ROOM repository.
 
 ---
 
-## Read These First
+# 1. Read This First
 
-Before making product, architecture, or design decisions, read the relevant source-of-truth document:
+Before making a meaningful change, read the relevant project documents.
 
-- `docs/PRODUCT.md` for product scope, priorities, and feature intent.
-- `docs/ARCHITECTURE.md` for system boundaries, data flow, connectors, backend, and integration rules.
-- `docs/DESIGN.md` for visual identity, layout, motion, interaction, responsive behavior, and UI anti-patterns.
+Priority:
 
-Do not duplicate large sections of these documents into code comments or new documentation.
+1. `docs/PRODUCT.md`
+2. `docs/DESIGN.md`
+3. `docs/ARCHITECTURE.md`
+4. `README.md`
+5. this file
 
-Use them as references.
+Do not treat these documents as optional context.
+
+They define the product.
 
 ---
 
-## Current Project Stage
+# 2. Source of Truth
 
-KRAVV OS is in early prototype / V0.1.
-
-The goal is not to build the complete product.
-
-The current priority is to establish one small but real working loop:
+When instructions conflict, use this order:
 
 ```text
-Mock or external Study data
-        ↓
-KRAVV backend
-        ↓
-normalization
-        ↓
-persistence
-        ↓
-KRAVV API
-        ↓
+Current user request
+→ PRODUCT.md
+→ DESIGN.md
+→ ARCHITECTURE.md
+→ README.md
+→ Existing implementation
+```
+
+Existing code is not automatically correct if it conflicts with the active documentation.
+
+Do not preserve an old KRAVV design decision merely because it already exists in code.
+
+ALLVERRA ROOM is the active product identity.
+
+---
+
+# 3. Product Identity
+
+ALLVERRA ROOM is:
+
+- local-first,
+- personal,
+- calm,
+- data-aware,
+- domain-based,
+- intentionally small in V0.1.
+
+It is not:
+
+- a generic SaaS dashboard,
+- a Notion clone,
+- a fitness dashboard clone,
+- a habit tracker,
+- a generic LMS,
+- a calendar clone,
+- an AI chatbot shell.
+
+The product should feel like a personal room with useful systems inside it.
+
+---
+
+# 4. V0.1 Priority
+
+The V0.1 implementation priority is:
+
+```text
+Home
+→ Study end-to-end
+→ Health structure
+→ Context structure
+→ deeper domain work
+```
+
+Do not expand scope before the current layer is coherent.
+
+Study is the first real data path.
+
+Health and Context may remain partial until real integrations exist.
+
+---
+
+# 5. Home Rule
+
+Home contains only:
+
+1. **Now / Hero**
+2. **This Week**
+
+Do not add:
+
+- This Month,
+- All Time,
+- yearly analytics,
+- large historical dashboards,
+- unrelated productivity widgets.
+
+Detailed analytics belong inside domain pages.
+
+---
+
+# 6. Hero Rule
+
+The Hero should remain compact.
+
+It may include:
+
+- date,
+- greeting,
+- one relevant highlight,
+- optional CTA,
+- character / environmental atmosphere.
+
+Do not turn Hero into a multi-card dashboard.
+
+The active highlight is not permanently Study.
+
+Study may be used in V0.1 because it currently has the strongest real data path.
+
+---
+
+# 7. Weekly Domain Rule
+
+The Home weekly section must not become three identical cards.
+
+Each domain uses a different visual language.
+
+### Study
+
+Use:
+
+- 7-day contribution-style activity,
+- muted violet / lavender,
+- target-based intensity.
+
+Do not represent Git commits.
+
+### Health
+
+Use:
+
+- movement rhythm,
+- slim bars,
+- compact physical signals,
+- navy + gray.
+
+Do not copy the Study heatmap.
+
+### Context
+
+Use:
+
+- quiet timeline / calendar state,
+- neutral gray,
+- sparse event display.
+
+Do not artificially fill empty days.
+
+---
+
+# 8. Visual Priority
+
+The UI is always more important than the background.
+
+Hierarchy:
+
+```text
+UI content
+→ active data
+→ domain accent
+→ character artwork
+→ environment
+→ decorative texture
+```
+
+If readability becomes weak:
+
+**reduce background strength first.**
+
+Do not immediately add:
+
+- huge shadows,
+- dark panels,
+- stronger card fills,
+- glowing outlines.
+
+---
+
+# 9. Background Rule
+
+Character and environmental artwork are atmosphere.
+
+They are not the interface.
+
+Backgrounds should support:
+
+- upper-right character composition,
+- negative space on the left,
+- negative space below,
+- quiet lower content area,
+- low visual competition.
+
+Use opacity, masking, saturation control, overlays, and cropping when necessary.
+
+Do not let the background become the focal point.
+
+---
+
+# 10. Character Canon
+
+Character model sheets are canonical.
+
+Generated wallpapers are not canonical.
+
+Do not infer permanent character features from generated background images.
+
+## Alverixx
+
+Preserve:
+
+- white / silver-white hair,
+- calm / detached expression,
+- slim young male proportions,
+- gray / white / black outfit language,
+- right eye blue,
+- left eye muted gray,
+- subtle left-eye corneal damage,
+- restrained styling.
+
+Avoid:
+
+- generic anime-boy face,
+- heroic redesign,
+- cyberpunk exaggeration,
+- strong glossy rendering.
+
+## Lyverra
+
+Preserve:
+
+- very long loose black hair,
+- natural straight / soft flow,
+- subtle violet undertone,
+- soft brown eyes,
+- slim face,
+- muted violet cardigan,
+- white inner layer,
+- black lower garment,
+- calm older-sister presence.
+
+Do not invent:
+
+- ponytails,
+- ribbons,
+- bright violet eyes,
+- aggressive expression,
+- unrelated accessories.
+
+---
+
+# 11. Character Relationship
+
+Lyverra is the older sister.
+
+Alverixx is the younger sibling.
+
+Do not reinterpret the pair as romantic.
+
+Artwork should communicate familiarity without excessive drama.
+
+---
+
+# 12. Art Style
+
+Target:
+
+**clean editorial manga illustration with soft matte texture**
+
+Prefer:
+
+- human-looking linework,
+- restrained shading,
+- desaturated color,
+- subtle texture,
+- low-gloss rendering.
+
+Avoid:
+
+- glossy AI-anime rendering,
+- plastic skin,
+- excessive bloom,
+- hyper-detailed hair,
+- painterly blur that changes identity.
+
+---
+
+# 13. Design System Rule
+
+Do not hardcode one-off styling when a reusable token makes sense.
+
+Prefer shared tokens for:
+
+- spacing,
+- typography,
+- radius,
+- borders,
+- glass surface,
+- domain accents,
+- foreground contrast,
+- muted text,
+- background overlays.
+
+Do not build a giant abstraction layer before it is useful.
+
+---
+
+# 14. Glass Rule
+
+Glass is a material.
+
+It is not the entire layout.
+
+Use glass only when it improves:
+
+- separation,
+- focus,
+- readability,
+- interaction.
+
+Avoid turning every section into the same translucent rounded card.
+
+---
+
+# 15. Data Honesty
+
+Never invent data to make a design look complete.
+
+Differentiate:
+
+- real data,
+- fixture data,
+- missing data,
+- derived data,
+- AI-generated interpretation.
+
+Missing is not automatically zero.
+
+Fixture data must never visually pretend to be live data.
+
+---
+
+# 16. Provider Independence
+
+Frontend components must consume ALLVERRA models.
+
+Do not make Home depend directly on:
+
+- Huawei payloads,
+- Moodle payloads,
+- calendar provider payloads,
+- n8n node output.
+
+Provider-specific structures belong behind adapters / normalization.
+
+---
+
+# 17. Responsibility Boundaries
+
+Use this mental model:
+
+```text
+n8n
+→ moves data
+
+ALLVERRA backend
+→ understands data
+
+database
+→ remembers data
+
 frontend
+→ presents data
+
+AI
+→ reasons over prepared data
 ```
 
-The first meaningful proof is that changing Study data can be synchronized and visibly reflected in the KRAVV interface.
+Do not blur these responsibilities without a strong reason.
 
 ---
 
-## Current Product Priorities
+# 18. n8n Rule
 
-Build in this order unless the user explicitly changes the plan:
+n8n may handle:
 
-1. frontend shell
-2. backend shell
-3. mock Study data
-4. normalized Study model
-5. frontend-backend integration
-6. local persistence
-7. first real Study connector
-8. Health connector
-9. Events connector
-10. AI reasoning layer
-11. optional future integrations
+- schedules,
+- provider fetches,
+- transport filtering,
+- payload preparation,
+- triggering ingestion.
 
-Possible future modules such as Music, GitHub, Notes, Finance, Projects, and Knowledge should not distract from the current milestone.
+n8n should not become the permanent home of ALLVERRA domain semantics.
 
 ---
 
-## Development Principles
+# 19. Backend Rule
 
-### Prefer Simple Implementations
+The backend owns:
 
-Choose the simplest implementation that:
+- validation,
+- normalization,
+- canonical field names,
+- persistence,
+- domain logic,
+- derived metrics,
+- Home view models,
+- AI context preparation.
 
-- satisfies the current requirement,
-- keeps provider boundaries clean,
-- can be replaced later without major damage.
-
-Do not introduce infrastructure only because it looks production-ready.
-
-KRAVV should earn complexity.
+Do not move business logic into random frontend components.
 
 ---
 
-### Stable Core, Replaceable Edges
+# 20. AI Rule
 
-External providers must sit behind connector boundaries.
+AI is optional.
 
-The frontend should consume KRAVV domain data, not raw provider payloads.
+The product must remain useful without it.
 
-Preferred:
+Preferred pipeline:
 
 ```text
-Frontend
-   ↓
-KRAVV API
-   ↓
-KRAVV Core
-   ↓
-Connector
-   ↓
-External Provider
+normalized data
+→ deterministic preprocessing
+→ compact context
+→ model
+→ structured output
+→ validation
+→ persistence
+```
+
+Do not:
+
+- send uncontrolled raw dumps,
+- trigger model calls whenever Home renders,
+- use AI for deterministic arithmetic,
+- make AI required for core navigation.
+
+---
+
+# 21. Local-First Rule
+
+V0.1 is designed for local use.
+
+Avoid introducing cloud infrastructure unless specifically requested.
+
+Do not prematurely add:
+
+- Kubernetes,
+- distributed queues,
+- message brokers,
+- multi-region services,
+- complex auth,
+- multi-tenancy.
+
+One person's system should remain understandable by one developer.
+
+---
+
+# 22. Persistence Rule
+
+Important state must survive restart.
+
+Do not store important application state only inside ephemeral containers.
+
+Protect accumulated personal history.
+
+Schema evolution should not casually require deleting the database.
+
+---
+
+# 23. Scope Control
+
+When given a focused task:
+
+- solve that task,
+- preserve unrelated working behavior,
+- avoid opportunistic redesign,
+- avoid refactoring unrelated modules,
+- avoid adding speculative features.
+
+If a broader change seems useful, mention it separately rather than silently implementing it.
+
+---
+
+# 24. Implementation Workflow
+
+For non-trivial work:
+
+1. read the relevant docs,
+2. inspect existing code,
+3. identify current behavior,
+4. define the smallest useful change,
+5. implement,
+6. run relevant checks,
+7. inspect the UI if visual,
+8. verify data honesty,
+9. summarize what changed,
+10. note anything intentionally deferred.
+
+---
+
+# 25. Before Editing UI
+
+Before changing Home or another major screen, answer internally:
+
+```text
+What user problem am I solving?
+What data is real?
+What belongs on this page?
+What should remain in a deeper page?
+Does the change preserve ALLVERRA's visual hierarchy?
+```
+
+Do not begin from decoration.
+
+---
+
+# 26. Before Adding a Component
+
+Ask:
+
+- Is this component used more than once?
+- Does it represent a real product concept?
+- Is the abstraction simpler than duplication?
+
+Do not create component libraries for imagined future needs.
+
+---
+
+# 27. Before Adding a Dependency
+
+Ask:
+
+- Is it necessary?
+- Can existing tools solve the problem?
+- Is the maintenance cost justified?
+- Does it improve the owner's real workflow?
+
+Avoid dependency accumulation.
+
+---
+
+# 28. Empty States
+
+Prefer quiet empty states.
+
+Good:
+
+```text
+No health data yet.
 ```
 
 Avoid:
 
-```text
-Frontend -> Moodle API
-Frontend -> Huawei API
-Frontend -> Archive Tone API
-```
+- giant illustrations,
+- motivational filler,
+- large empty cards,
+- fake numbers.
 
 ---
 
-### Provider Independence
+# 29. Error Handling
 
-Do not design internal models around one provider.
+Errors should be local.
+
+One failed provider should not blank the entire Home page.
+
+Previously persisted data should remain visible when safe.
+
+---
+
+# 30. Loading
+
+Keep layout stable during loading.
+
+Avoid large full-screen spinners.
 
 Prefer:
 
-```text
-progress
-source
-external_id
-```
-
-Avoid provider-shaped fields such as:
-
-```text
-moodle_percentage
-edx_unit_id
-huawei_metric_blob
-```
-
-Provider-specific structures belong inside connector implementations unless the data represents a useful domain concept shared by KRAVV.
+- subtle skeletons,
+- reserved space,
+- local loading states.
 
 ---
 
-### Normalize Before Reasoning
+# 31. Accessibility
 
-AI, UI, and cross-domain logic should work from normalized KRAVV data.
+Do not sacrifice accessibility for atmosphere.
 
-Do not make the AI layer depend directly on arbitrary external API payloads.
+Maintain:
 
----
+- readable contrast,
+- keyboard support,
+- focus states,
+- sufficient type size,
+- reduced-motion compatibility.
 
-## Frontend Rules
-
-Follow `docs/DESIGN.md`.
-
-The UI should feel like a personal living cockpit.
-
-Important rules:
-
-- dark-first
-- blue-led visual identity
-- controlled glassmorphism
-- subtle ambient effects
-- meaningful motion
-- clear hierarchy
-- reusable components
-- responsive behavior
-- accessible contrast
-
-Do not generate a generic AI SaaS dashboard.
-
-Avoid:
-
-- excessive purple-blue gradients
-- glass on every element
-- neon cyberpunk styling
-- dozens of charts
-- unnecessary cards
-- oversized marketing-style hero sections
-- animation without functional meaning
-
-The dashboard should answer:
-
-> What matters to me right now?
+Background art must never reduce critical readability.
 
 ---
 
-## KRAVVIENT Visual Relationship
+# 32. Responsive Behavior
 
-KRAVV OS shares family DNA with KRAVV-IENT but should not duplicate its corporate terminal aesthetic.
+Desktop is the primary V0.1 target.
 
-Shared:
+Still ensure smaller widths remain usable.
 
-- dark foundation
-- blue identity
-- technical clarity
-- precise spacing
-- clean typography
+On narrow screens:
 
-KRAVV OS adds:
+- crop artwork more,
+- reduce artwork prominence,
+- stack weekly sections,
+- simplify environment,
+- preserve data clarity.
 
-- softer atmosphere
-- fluid motion
-- contextual surfaces
-- personal elements
-- optional glass
-- richer interaction
-
-Useful mental model:
-
-> KRAVV-IENT is the boardroom terminal.  
-> KRAVV OS is the living cockpit.
+Do not shrink everything until it becomes unreadable.
 
 ---
 
-## Backend Rules
+# 33. Route Integrity
 
-Keep provider-specific code behind connectors.
+Do not create fake navigation.
 
-Backend responsibilities may include:
+A CTA should not lead to:
 
-- KRAVV APIs
-- normalization
-- persistence
-- connector orchestration
-- synchronization
-- derived metrics
-- AI context preparation later
+- empty placeholder routes,
+- fake pages,
+- dead destinations.
 
-Do not put external provider mapping logic directly into frontend components.
+If a domain page does not exist yet:
+
+- keep the visual doorway subtle,
+- or disable / defer the route intentionally.
 
 ---
 
-## Connector Rules
+# 34. Fixture Data
 
-A connector represents one external integration.
+Fixture data is allowed during development.
 
-Possible examples:
+Rules:
+
+- store it separately,
+- label it clearly in code,
+- keep it replaceable,
+- never mix it invisibly with live data.
+
+---
+
+# 35. Comments and Documentation
+
+Write comments for:
+
+- why a decision exists,
+- non-obvious constraints,
+- provider quirks,
+- domain rules.
+
+Do not narrate obvious code line by line.
+
+Update docs when implementation meaningfully changes product or architecture.
+
+---
+
+# 36. Naming
+
+Prefer names that reflect domain meaning.
+
+Good:
 
 ```text
-MoodleConnector
-OpenEdXConnector
-HuaweiHealthConnector
-CalendarConnector
-ArchiveToneConnector
+StudyWeeklyActivity
+HealthDailySummary
+ContextEvent
+HomeHighlight
 ```
 
-Exact interfaces should be derived from real implementation needs.
-
-Possible responsibilities:
+Avoid vague names:
 
 ```text
-authenticate()
-fetch()
-map()
-sync()
-status()
+DataBox
+InfoCard
+Thing
+Widget2
 ```
 
-Do not create an elaborate connector framework before the first connector exists.
+---
+
+# 37. Testing Priority
+
+Prioritize tests around:
+
+- normalization,
+- data mapping,
+- persistence,
+- sync behavior,
+- Home view-model assembly,
+- provider adapters,
+- critical UI states.
+
+Do not chase arbitrary coverage percentages.
+
+Test behavior that would hurt if it silently broke.
 
 ---
 
-## Data Rules
+# 38. Visual Acceptance Check
 
-Normalized records should retain source metadata when useful.
+Before considering Home complete, verify:
 
-Example:
+- greeting is immediately readable,
+- Hero remains compact,
+- background is secondary,
+- character identity is not visually distorted,
+- Study weekly signal is understandable,
+- Health does not look like Study,
+- Context remains quiet,
+- CTAs are understated,
+- normal browser zoom feels complete,
+- whitespace still exists.
 
-```text
-source
-external_id
-synced_at
-```
+If the page feels impressive but tiring:
 
-This helps with:
-
-- updates
-- deduplication
-- debugging
-- provider migration
-- sync history
-
-Do not prematurely create a large universal schema.
-
-Model only data that KRAVV currently needs.
+reduce it.
 
 ---
 
-## Database Rules
+# 39. Do Not Reintroduce Old KRAVV Visual DNA
 
-For early local development, a simple database is acceptable.
+Do not automatically use:
 
-SQLite is valid for V0.1.
+- heavy navy dashboard surfaces,
+- corporate terminal styling,
+- KRAVVIENT branding,
+- dark VC-dashboard composition.
 
-Do not migrate to a heavier database solely for prestige.
+ALLVERRA ROOM is a separate visual identity.
 
-Use PostgreSQL or another database when an actual requirement appears.
+Some engineering history may survive.
 
----
-
-## Sync Rules
-
-Manual sync is acceptable in V0.1.
-
-Example:
-
-```text
-[ Sync Study Data ]
-```
-
-Do not introduce:
-
-- job queues
-- webhooks
-- real-time streaming
-- background schedulers
-
-until the product actually needs them.
-
-Every connector should eventually fail gracefully without breaking unrelated modules.
+The old visual identity does not.
 
 ---
 
-## AI Rules
+# 40. Long-Term Mindset
 
-AI is not required for KRAVV Core to function.
+ALLVERRA ROOM is intended to accumulate value through real use.
 
-Do not make basic product functionality depend on an LLM.
+Optimize for:
 
-AI should eventually operate as a reasoning and insight layer over KRAVV data.
+- maintainability,
+- honest history,
+- understandable code,
+- replaceable providers,
+- gradual evolution.
 
-Good future uses:
-
-- daily brief
-- weekly review
-- study insight
-- schedule summary
-- cross-domain pattern
-- personal-data question answering
-
-AI output should distinguish observed data from interpretation.
-
-Do not add autonomous agents unless a concrete use case requires them.
+Avoid building impressive complexity that makes tomorrow's change harder.
 
 ---
 
-## Security and Secrets
+## Final Agent Rule
 
-Never commit:
-
-- API keys
-- OAuth secrets
-- access tokens
-- passwords
-- private credentials
-- production secrets
-
-Use environment variables or appropriate local secret storage.
-
-Keep a safe `.env.example` when needed.
-
-Do not expose local services publicly as part of normal prototype work unless the task explicitly requires remote access and the security implications are considered.
-
----
-
-## Scope Control
-
-Before adding a new feature, ask internally:
-
-1. Is this required for the current milestone?
-2. Is it already defined in `PRODUCT.md`?
-3. Does it affect architecture?
-4. Does it alter the design language?
-5. Can it wait?
-
-If it can wait, keep it out of the current implementation.
-
-Do not silently expand scope.
-
----
-
-## Documentation Rules
-
-Update documentation when a meaningful decision changes.
-
-Update:
-
-- `PRODUCT.md` when product scope or intended behavior changes.
-- `ARCHITECTURE.md` when system boundaries, data flow, storage, integrations, or infrastructure materially change.
-- `DESIGN.md` when the design language, major layout behavior, or UI principles materially change.
-
-Do not update documentation for trivial implementation details.
-
-Do not create new documentation files unless they solve a real documentation need.
-
----
-
-## Planning Complex Work
-
-For small tasks, implement directly.
-
-For larger features, significant refactors, or work spanning multiple subsystems:
-
-1. inspect the relevant code and docs,
-2. identify affected boundaries,
-3. write a concise implementation plan before editing,
-4. keep the plan grounded in the current repository,
-5. update the plan if discoveries change the approach.
-
-A dedicated `PLANS.md` may be added later if recurring multi-hour Codex work makes it useful.
-
-Do not create process overhead for tiny changes.
-
----
-
-## Code Quality
-
-Prefer:
-
-- clear naming
-- small focused modules
-- readable code
-- explicit data boundaries
-- reusable UI components
-- typed contracts where appropriate
-- useful error states
-- simple tests around important boundaries
-
-Avoid clever abstractions that make the prototype harder to understand.
-
-Comments should explain why, not restate obvious code.
-
----
-
-## Testing Priorities
-
-Prioritize tests for:
-
-- normalization
-- connector mapping
-- API contracts
-- sync behavior
-- persistence
-- error handling
-- critical dashboard rendering
-
-Do not spend disproportionate effort testing decorative UI details during V0.1.
-
----
-
-## Performance
-
-Do not make the interface visually heavy for decorative reasons.
-
-Be conservative with:
-
-- backdrop blur
-- continuously animated gradients
-- large background videos
-- unnecessary 3D effects
-- always-running animation loops
-
-Prefer lightweight CSS transitions and localized effects.
-
----
-
-## Working Style
-
-When completing a task:
-
-1. understand the requested outcome,
-2. inspect relevant files before changing them,
-3. respect existing boundaries,
-4. make the smallest coherent change,
-5. test the behavior when possible,
-6. summarize what changed,
-7. mention any unresolved issue or assumption clearly.
-
-Do not claim something works unless it was actually verified or the limitation is explicitly stated.
-
----
-
-## V0.1 Definition of Done
-
-The initial architecture is considered proven when:
-
-```text
-KRAVV frontend runs
-KRAVV backend runs
-frontend can call backend
-Study data is normalized
-data persists locally
-dashboard renders it
-sync changes visible state
-a real Study connector can replace mock input without redesigning the UI
-```
-
-Everything else can grow after that.
-
----
-
-## Final Principle
-
-KRAVV OS should remain understandable as it grows.
-
-Providers will change.
-
-Models will change.
-
-The interface will evolve.
-
-The core concepts should remain clear.
-
-> **Build the smallest useful system, preserve clean boundaries, and let complexity arrive only when reality asks for it.**
+> **Build the smallest honest version that fits ALLVERRA's product, design, and architecture — then stop before adding things nobody asked for.**

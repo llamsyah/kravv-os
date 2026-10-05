@@ -1,817 +1,941 @@
-# KRAVV OS — Design Language
+# ALLVERRA ROOM — Design System & Home Direction
 
-> Status: Living document  
-> Stage: V0.1 / Early Prototype  
-> Purpose: Define the visual identity, layout behavior, motion, and interaction rules of KRAVV OS so the product feels coherent across future modules.
-
----
-
-## 1. Design Vision
-
-KRAVV OS should feel like a **personal living cockpit**.
-
-It belongs to the KRAVVIENT product family, but it should not look like a corporate terminal copied into a personal app.
-
-KRAVV-IENT is designed for a more restrained, analytical, VC-oriented environment.
-
-KRAVV OS should feel:
-
-- personal
-- adaptive
-- interactive
-- expressive
-- calm
-- slightly futuristic
-- useful before decorative
-
-The interface should feel alive without becoming noisy.
-
-### Home principle
-
-**Information should be minimal. Personality should come from visual design,
-not excess copy.**
-
-Use a real raster wallpaper in the upper Home area, with a dark gradient overlay
-for legibility and a soft transition into the navy base. Selected glass surfaces
-float over that transition. Strong KRAVV blue, restrained indigo/violet light,
-typography, spacing, and meaningful motion carry the personality.
-
-Empty space is intentional. Do not fill it with motivational text, decorative
-charts, fake data, connection panels, or large placeholders. Home has two time
-horizons: **Now** in the atmospheric hero and **This Week** below it. Home is for
-a glance; domain sections are for understanding; Insights are for investigation.
-Wallpaper and greeting are the emotional anchor. The hero has no permanently
-dominant domain. Study currently supplies its one real signal. The weekly area
-keeps subtle visual structure for Study, Health/Movement, and Context/Events
-even when some data is unavailable. Hide empty-state content, not necessarily
-the domain itself. AI presence is optional and omitted until useful.
-Source/mock indicators, last-sync details, backend status, and provider connections
-belong in Settings or a future developer view.
+**Document:** `docs/DESIGN.md`  
+**Status:** Active baseline  
+**Version:** V0.1  
+**Purpose:** Define the visual system, composition rules, background behavior, character usage, and Home-page hierarchy for ALLVERRA ROOM.
 
 ---
 
-## 2. Relationship to KRAVVIENT
+## 1. Design Goal
 
-KRAVV OS inherits the visual DNA of KRAVVIENT.
+ALLVERRA ROOM should feel like a **personal room with a quiet command center inside it**.
 
-Shared DNA:
+It should not look like:
 
-- dark-first interface
-- blue-led identity
-- technical clarity
-- precise spacing
-- clean typography
-- disciplined information hierarchy
-- subtle futuristic character
+- a generic SaaS dashboard,
+- a corporate analytics product,
+- a productivity template,
+- an anime wallpaper with UI pasted on top,
+- or a collection of identical glass cards.
 
-Different personality:
+The interface should feel:
 
-### KRAVV-IENT
+- calm,
+- clean,
+- personal,
+- softly atmospheric,
+- visually intentional,
+- modern without looking over-designed.
 
-- corporate
-- analytical
-- restrained
-- dense
-- terminal-like
-- professional
-- information-first
+The UI remains the main subject.
 
-### KRAVV OS
-
-- personal
-- fluid
-- ambient
-- animated
-- emotionally warmer
-- more visual
-- more playful
-- context-aware
-
-A useful mental model:
-
-> **KRAVV-IENT is the boardroom terminal. KRAVV OS is the living cockpit.**
+The background and character artwork support the experience rather than compete with it.
 
 ---
 
-## 3. Core Visual Principles
+# 2. Core Design Principle
 
-### 3.1 Dark First
+## Clean first. Personality second. Decoration third.
 
-KRAVV OS should primarily use a deep dark background.
+When a visual decision creates tension between beauty and readability:
 
-The dark base creates contrast for:
+**reduce the background or decoration before increasing UI heaviness.**
 
-- blue accents
-- glass panels
-- ambient gradients
-- charts
-- motion
-- AI states
+Do not solve a busy background by adding:
 
-Avoid pure black everywhere.
+- stronger shadows,
+- darker card fills,
+- heavier borders,
+- excessive blur,
+- more containers.
 
-Prefer deep navy or near-black blue tones.
+Instead, reduce the visual strength of the background.
 
 ---
 
-### 3.2 Blue Is the Anchor
+# 3. Visual Hierarchy
 
-Blue is the core KRAVV identity.
+The visual hierarchy should remain predictable.
 
-KRAVV OS may expand into nearby tones such as:
+From strongest to quietest:
 
-- cobalt
-- cyan
-- indigo
-- violet
+1. **Primary UI content**
+2. **Current / relevant data**
+3. **Domain accent**
+4. **Character artwork**
+5. **Environmental background**
+6. **Decorative foliage / texture**
 
-These colors should feel related rather than becoming a rainbow dashboard.
-
-Suggested direction:
+Approximate contrast hierarchy:
 
 ```text
-Deep Navy
-    ↓
-KRAVV Blue
-    ↓
-Electric Blue
-    ↓
-Indigo
-    ↓
-Soft Violet
+UI text + important data         100%
+Interactive states               90–100%
+Character focal area             55–70%
+Environmental illustration       30–45%
+Foliage / texture                15–30%
+Ambient atmosphere               10–20%
 ```
 
-Color should communicate hierarchy and state, not decorate every surface.
+These values are guidance, not strict CSS constants.
+
+The intended result is simple:
+
+> The user should notice the information before noticing how beautiful the background is.
 
 ---
 
-### 3.3 Glass, Not Glass Everywhere
+# 4. ALLVERRA Base Palette
 
-Glassmorphism is part of the KRAVV OS personality, but it should be controlled.
+ALLVERRA uses a shared neutral foundation.
 
-Good uses:
+## Base
 
-- primary dashboard cards
-- floating command bar
-- AI panel
-- modal windows
-- sidebar
-- music player
-- contextual overlays
+- warm white / off-white
+- soft gray
+- graphite
+- charcoal
+- near-black
 
-Avoid making every button, label, or small container a blurred glass surface.
+Avoid pure black unless used sparingly.
 
-The background should remain visually stable so glass panels have something to contrast against.
+Avoid strongly saturated blue as the global identity.
 
 ---
 
-### 3.4 Motion Has Meaning
+## Domain accents
 
-Animation should communicate:
+### Study / Lyverra
 
-- state change
-- progress
-- synchronization
-- hierarchy
-- navigation
-- system activity
+Primary accent:
 
-Do not animate something only because it can be animated.
+- muted violet
+- lavender
+- soft desaturated purple
 
-Examples:
+Use violet for:
 
-- study progress smoothly changes after sync
-- health metrics softly update
-- cards enter with subtle stagger
-- AI insight panel expands when new context appears
-- sync indicators pulse while fetching
-- ambient background shifts slightly with context
+- active Study state,
+- weekly activity intensity,
+- Study CTA,
+- focus indicator,
+- subtle ambient reflection.
 
-Motion should usually feel soft and controlled rather than fast or flashy.
+Do not fill large areas with saturated purple.
 
 ---
 
-## 4. Layout Philosophy
+### Health / Alverixx
 
-KRAVV OS should feel like one workspace rather than a collection of unrelated pages.
+Primary accent:
 
-Current desktop Home layout:
+- deep navy
+- cool gray
+- steel gray
+- subtle blue-white
+
+Use navy for:
+
+- Health activity state,
+- selected movement day,
+- important metric,
+- small chart / rhythm emphasis,
+- Health CTA.
+
+The Health section may feel more analytical than Study.
+
+---
+
+### Context
+
+Default accent:
+
+- neutral gray
+- graphite
+- soft white
+
+Context should usually be quieter than Study and Health.
+
+Do not introduce a third strong color unless future product meaning requires it.
+
+---
+
+# 5. Material Language
+
+ALLVERRA may use glassmorphism, but glass is a **material**, not a layout strategy.
+
+Do not put every section inside the same rounded translucent rectangle.
+
+Use glass only where it helps:
+
+- separate foreground information from the background,
+- create local focus,
+- improve readability,
+- support floating UI,
+- communicate interaction.
+
+Recommended glass behavior:
+
+- neutral or slightly warm white tint,
+- low opacity,
+- subtle blur,
+- thin low-contrast border,
+- minimal shadow.
+
+Avoid:
+
+- blue-tinted glass everywhere,
+- excessive blur,
+- bright glowing borders,
+- thick shadows,
+- oversized bubbles.
+
+---
+
+# 6. Background System
+
+The Home background is a designed visual layer, not just a CSS gradient.
+
+It should already contain a natural visual transition from the upper Hero area into a quieter lower area.
+
+The lower Home area must remain suitable for weekly data.
+
+## Background composition
+
+The background should provide:
+
+- character artwork in the upper-right area,
+- environmental framing,
+- large usable negative space on the left,
+- large usable negative space below,
+- low-contrast transition into the weekly area,
+- subtle foliage or environmental texture.
+
+The background should not contain:
+
+- readable text,
+- logos,
+- fake UI,
+- strong decorative objects behind important data,
+- high-frequency detail across the whole screen.
+
+---
+
+## Background strength
+
+The background should be adjusted in the UI layer if needed.
+
+Useful controls:
+
+- opacity,
+- contrast,
+- saturation,
+- brightness,
+- overlay,
+- blur in selected areas,
+- masked fade.
+
+Recommended starting point:
 
 ```text
-Navigation rail | Now: wallpaper / date / greeting / one relevant signal
-Home            | This Week: Study activity / Movement rhythm / Context timeline
-Study           |
-Settings        |
+Character artwork opacity:
+55–70%
+
+Environment detail:
+20–40%
+
+Decorative foliage:
+15–30%
+
+Saturation:
+slightly reduced
+
+Foreground UI:
+full readability
 ```
 
-The atmospheric opening remains the visual center. The hero signal sits within
-the wallpaper transition without a large card. This Week is one composition
-with distinct visual forms, not three equal cards. There is no system/AI context
-rail on Home. The weekly parts stack on smaller screens; navigation moves to
-the bottom on mobile. Existing Settings and Commands dialogs are outside this
-Home refinement.
-
-Weekly surfaces use neutral, low-opacity frosted glass with moderate corners.
-Each carries a small text-and-arrow doorway cue. Study links to the existing
-`#study` section; Movement and Context cues remain non-interactive until real
-destinations exist. Only working links receive hover/focus feedback.
+Do not apply one global opacity blindly if local masking works better.
 
 ---
 
-## 5. Navigation
+## Hero-to-content transition
 
-### Primary Navigation
+The transition should feel embedded into the artwork.
 
-Initial navigation may include:
+Preferred:
+
+- soft light wash,
+- mist / environmental fade,
+- low-detail lower region,
+- gradual value transition,
+- negative space.
+
+Avoid:
+
+- obvious rectangular overlays,
+- hard horizontal gradient cuts,
+- sudden background-color changes,
+- heavy dark fades unless required by a dark theme variant.
+
+CSS may support the transition, but should not be solely responsible for it.
+
+---
+
+# 7. Decorative Foliage
+
+Foliage is optional atmospheric framing.
+
+It may appear:
+
+- behind the sidebar,
+- at far left,
+- lower corners,
+- far right edge,
+- as soft shadows or blurred foreground elements.
+
+Foliage is not part of navigation.
+
+If visible behind translucent UI, it should remain subtle.
+
+Do not treat foliage as a mandatory ALLVERRA logo motif.
+
+If another environmental motif works better later, it may replace foliage.
+
+---
+
+# 8. Character Identity
+
+Character sheets are the canonical source of truth.
+
+Generated background images are **not** canonical references for:
+
+- face,
+- hairstyle,
+- proportions,
+- outfit identity,
+- eye design.
+
+When generating new artwork, preserve character identity first and composition second.
+
+---
+
+## 8.1 Alverixx
+
+Visual identity:
+
+- white / silver-white hair,
+- calm / distant expression,
+- slim young male proportions,
+- gray / white / black clothing language,
+- long gray coat when using the established outfit,
+- white shirt,
+- dark trousers,
+- understated styling.
+
+Eyes:
+
+- right eye: cool blue,
+- left eye: muted gray,
+- left eye reflects corneal damage,
+- effect must remain subtle and non-graphic.
+
+Character energy:
+
+- quiet,
+- detached,
+- relaxed,
+- slightly aloof,
+- not performative.
+
+Avoid:
+
+- generic glossy anime face,
+- overly heroic pose,
+- excessive emotion,
+- strong cyberpunk treatment.
+
+---
+
+## 8.2 Lyverra
+
+Visual identity:
+
+- very long black hair,
+- hair remains loose,
+- no invented ponytail,
+- no invented ribbon unless the canonical character sheet includes it,
+- natural straight / softly flowing hair,
+- subtle violet strands or undertone,
+- calm narrow-soft eyes,
+- slim face,
+- understated expression.
+
+Eyes:
+
+- soft brown.
+
+Outfit language:
+
+- muted violet cardigan,
+- white inner shirt,
+- black lower garment,
+- elegant and calm silhouette.
+
+Character energy:
+
+- older-sister presence,
+- calm,
+- mature,
+- observant,
+- emotionally softer than Alverixx without becoming overly cute.
+
+Avoid:
+
+- generic anime-girl face,
+- exaggerated violet eyes,
+- overly glossy hair,
+- yandere expression,
+- artificial accessories not present in the reference.
+
+---
+
+# 9. Character Relationship in Home Artwork
+
+Lyverra is the older sister.
+
+Alverixx is the younger sibling.
+
+The Home artwork should communicate familiarity without turning into a dramatic poster.
+
+Possible pose direction:
+
+- both relaxed,
+- Alverixx slightly more casual / unconcerned,
+- Lyverra visually steadier,
+- no forced camera-facing pose,
+- no exaggerated emotional scene.
+
+The pair should occupy mainly the upper-right composition.
+
+Do not let the artwork consume the entire layout.
+
+---
+
+# 10. Character Art Style
+
+Target:
+
+**clean editorial manga illustration with soft matte texture**
+
+Characteristics:
+
+- clean but slightly human linework,
+- visible drawing structure,
+- soft desaturated shading,
+- matte color treatment,
+- restrained highlights,
+- subtle paper / brush texture,
+- low-gloss rendering.
+
+Avoid:
+
+- hyper-polished AI anime rendering,
+- plastic skin,
+- excessive bloom,
+- glossy cinematic face rendering,
+- over-detailed hair strands,
+- over-sharpened line art,
+- painterly blur that destroys character identity.
+
+The image should feel like:
+
+> a polished illustration drawn from a manga / editorial character design language.
+
+---
+
+# 11. Typography
+
+Typography should feel clean and editorial.
+
+Use a controlled combination of:
+
+- refined serif for selected large hero text,
+- modern sans-serif for interface text.
+
+Do not overuse serif.
+
+Recommended:
+
+- Hero greeting may use serif.
+- Navigation, metrics, labels, CTAs, dates, and system text should use sans-serif.
+
+Avoid:
+
+- too many font families,
+- decorative typography inside data surfaces,
+- excessive letter spacing on body text,
+- motivational micro-copy.
+
+---
+
+# 12. Sidebar
+
+The sidebar should be quiet.
+
+It may be:
+
+- translucent,
+- lightly frosted,
+- borderless or use one subtle divider,
+- visually connected to the background.
+
+Background artwork may faintly remain visible behind it.
+
+Primary items:
+
+- Home
+- Study
+- Health
+- Context
+
+Do not fill the sidebar with:
+
+- product slogans,
+- system-status copy,
+- developer information,
+- fake shortcuts,
+- unnecessary secondary labels.
+
+Selected state should be obvious but restrained.
+
+---
+
+# 13. Home Structure
+
+Home has only two major content layers.
+
+## Layer 1 — Now / Hero
+
+Contains:
+
+- date,
+- greeting,
+- one relevant highlight,
+- optional CTA,
+- character artwork / atmosphere.
+
+The hero must remain cleaner than a dashboard.
+
+Do not put multiple competing statistics in the hero.
+
+---
+
+## Layer 2 — This Week
+
+Contains:
+
+- Study weekly signal,
+- Health weekly signal,
+- Context weekly signal.
+
+No month.
+
+No year.
+
+No all-time.
+
+---
+
+# 14. Current Highlight
+
+The Hero highlight should be compact.
+
+Example:
 
 ```text
-Home
 Study
-Health
-Events
-Notes
-AI
-Settings
+Mathematics
+Conditional Probability
+50%
 ```
 
-Future modules may include:
+Use the least UI necessary to communicate this.
+
+Possible treatment:
+
+- soft translucent panel,
+- borderless text block,
+- subtle accent line,
+- compact progress indicator.
+
+Do not make the highlight a giant dashboard card.
+
+The relevant domain may change in the future.
+
+---
+
+# 15. Weekly Layout
+
+The weekly area must not become three duplicated cards.
+
+Each domain gets a visual form appropriate to its data.
+
+The layout may be asymmetric.
+
+Study and Health may receive more visual weight than Context.
+
+---
+
+# 16. Study Weekly Visual
+
+Study uses a contribution-inspired visualization.
+
+Show exactly seven current-week days.
+
+Example:
 
 ```text
-Projects
-GitHub
-Music
-Finance
-Knowledge
+Mon  Tue  Wed  Thu  Fri  Sat  Sun
+ □    ░    ▒    ▓    █    ░    □
 ```
 
-Navigation should not expose future modules before they are useful.
+The boxes represent Study activity intensity toward a daily target.
 
-Inactive or unimplemented sections should not clutter the interface.
+They do not represent Git commits.
 
----
+Possible intensity states:
 
-## 6. Home Arrival Layer
+- unrecorded,
+- low activity,
+- medium activity,
+- target reached.
 
-Home should answer at a glance:
+Use violet as the active language.
 
-> What matters to me right now?
+Keep labels minimal.
 
-It should not attempt to show every available metric.
+Possible supporting data:
 
-V0.1 structure:
+- subject,
+- topic,
+- weekly minutes,
+- current progress.
 
-```text
-Now: wallpaper + greeting / date + one current signal
-        ↓
-This Week: compact weekly visual structure for Study, Movement, Context
-```
+CTA:
 
-### Study Highlight
-
-Should prioritize:
-
-- current subject/course
-- compact progress only when useful
-- current topic
-- recent activity
-- Continue when a real destination exists
-
-Avoid turning it into a miniature LMS.
-
-Study is the first working integration, not the permanent visual owner of Home.
-Use a compact course/topic treatment; keep progress subordinate and sync secondary.
-Continue is intentionally omitted in the current implementation because there is
-no separate Study page or lesson URL. Do not create a pretend navigation action.
-Do not repeat progress in an ornamental chart. Sync success is a brief, transient
-acknowledgment; error feedback stays visible with technical details available in Settings.
-
-In This Week, Study uses seven contribution-style day marks. The current model
-has aggregate progress and one `last_activity` timestamp, not daily history.
-Mark that day only when it falls in the current week; leave all other days
-unrecorded rather than implying confirmed inactivity or inventing intensity.
+`Open study →`
 
 ---
 
-### Health Highlight
+# 17. Health Weekly Visual
 
-In V0.1, Health has no dataset. Its weekly movement rhythm stays neutral and
-unrecorded, with no invented levels or trends. Connection status remains in
-Settings. Do not use a large disconnected card.
+Health must use a different visual language from Study.
 
-Should prioritize:
+Possible forms:
 
-- one currently relevant signal when real data exists
-- morning: sleep; daytime: movement/activity; evening: daily recap, when supported
-- a presentation appropriate to that signal, not a copy of the Study highlight
+- slim vertical movement bars,
+- rhythm strip,
+- pulse-like weekly indicators,
+- compact movement curve.
 
-Avoid presenting health data as diagnosis.
+Use navy + gray.
 
----
+Supporting highlights may include:
 
-### Context / Events Highlight
+- steps,
+- resting HR,
+- sleep,
+- movement duration.
 
-In V0.1, Context has no event dataset. Its weekly calendar/timeline structure
-remains empty, with no invented events, deadlines, or completed activities.
+Do not show too many metrics at once.
 
-Should prioritize:
+Recommended Home maximum:
 
-- the next relevant event, deadline, or daily context when real data exists
-- a concise line or other contextual format rather than another equal module card
+**2–3 health highlights.**
 
-Avoid displaying an entire complex calendar when a short daily view is enough.
+CTA:
 
-Month, semester, year, detailed activity histories, long-term trends, and
-showcase surfaces belong in domain pages or future dedicated surfaces. Home
-shows only now and the current week.
+`Open health →`
 
 ---
 
-## 7. Personal Context Layer
+# 18. Context Weekly Visual
 
-KRAVV OS should feel personal without becoming visually chaotic.
+Context should be the quietest weekly domain.
 
-Possible contextual elements:
+Use a timeline / calendar-like visual.
 
-- greeting based on time of day
-- user's name
-- current focus
-- lightweight quote or personal line
-- ambient background
-- music state
-- recent activity
-- current study topic
-- upcoming event
-- AI-generated daily brief
+Days may remain empty if no event exists.
 
-These elements should support the current context rather than compete for attention.
+State language:
 
-For current Home, use greeting/date and available contextual highlights. Do not
-add the other examples to fill space; quotes and slogans are not part of Home.
+- past event → muted,
+- current / today → clear,
+- upcoming → visible outline / light emphasis.
+
+Events should only appear where real or fixture data exists.
+
+Do not fill every day artificially.
+
+CTA:
+
+`Open context →`
+
+Context may be visually flatter and less card-like than Study or Health.
 
 ---
 
-## 8. Ambient Interface
+# 19. CTA Behavior
 
-KRAVV OS may subtly change based on context.
+Each Home domain should have a small doorway into its dedicated section.
 
 Examples:
 
-### Morning
+- `Open study →`
+- `Open health →`
+- `Open context →`
 
-- slightly brighter blue tones
-- clearer highlights
-- daily priorities emphasized
+CTA should not dominate the module.
 
-### Evening
+Avoid large primary buttons unless an action truly requires one.
 
-- deeper navy
-- softer violet accents
-- lower visual intensity
-
-### Focus Mode
-
-- fewer visible widgets
-- reduced animation
-- study/task panel emphasized
-- secondary panels visually muted
-
-### Weekly Review
-
-- more analytical layout
-- trend cards
-- cross-domain summaries
-
-Ambient changes must remain subtle.
-
-KRAVV OS should never become visually unpredictable.
+Do not create a CTA if its destination does not exist.
 
 ---
 
-## 9. AI Presence
+# 20. Whitespace
 
-KRAVV AI should feel embedded in the system.
+Whitespace is a required part of the design.
 
-V0.1 has no Home AI panel or artificial activity indicator. Its disconnected
-status is visible in Settings. The following patterns are future possibilities.
+Do not treat empty space as unfinished.
 
-Avoid the default pattern of a generic floating chatbot bubble.
+The Home layout should leave breathing room around:
 
-Possible UI forms:
+- greeting,
+- highlight,
+- weekly modules,
+- character artwork.
 
-- dedicated context rail
-- command palette
-- inline insight card
-- expandable AI panel
-- subtle orb / pulse indicator
-- contextual suggestions
+The interface should remain usable at 100% browser zoom without requiring zoom-out to understand the composition.
 
-AI state may include:
+Avoid excessively tall hero sections that push the weekly overview too far below the fold.
+
+---
+
+# 21. Responsive Behavior
+
+Desktop is the primary V0.1 target.
+
+The layout should still degrade cleanly on smaller widths.
+
+On narrower screens:
+
+- artwork may crop more aggressively,
+- character art may reduce in prominence,
+- weekly sections may stack,
+- sidebar may collapse,
+- background detail should be reduced.
+
+Data readability always wins over artwork preservation.
+
+---
+
+# 22. Motion
+
+Motion should be subtle.
+
+Allowed:
+
+- soft hover transitions,
+- small opacity change,
+- gentle surface lift,
+- compact progress animation,
+- low-key background parallax only if inexpensive and optional.
+
+Avoid:
+
+- constant decorative animation,
+- large floating elements,
+- exaggerated card motion,
+- motion that makes the product feel game-like.
+
+Respect reduced-motion preferences.
+
+---
+
+# 23. Empty States
+
+Empty states should remain quiet.
+
+Good:
 
 ```text
-Idle
-Thinking
-Syncing context
-Insight ready
-Offline
+No movement data yet.
 ```
 
-The visual state should be understandable without excessive animation.
+Better when the visual itself can communicate emptiness without a large message.
+
+Avoid giant empty-state cards.
+
+Do not use motivational filler.
 
 ---
 
-## 10. Command Interface
+# 24. Loading & Error States
 
-KRAVV OS may include a universal command bar.
+Loading should preserve layout stability.
+
+Avoid replacing entire sections with large spinners.
+
+Errors should be clear and local.
 
 Example:
 
 ```text
-Ask KRAVV anything...        Ctrl + K
+Study data unavailable.
+Try again
 ```
 
-Possible uses:
-
-- navigate to modules
-- search personal data
-- ask AI questions
-- trigger sync
-- create note
-- add event
-- start focus session
-
-The command interface should become a shortcut layer, not replace normal navigation.
+Previously persisted data should remain visible where safe.
 
 ---
 
-## 11. Music Integration
+# 25. Accessibility
 
-Music is a future personal module.
+Maintain:
 
-Archive Tone may later act as an external music source through an API or connector.
+- sufficient text contrast,
+- visible focus states,
+- keyboard-accessible navigation,
+- readable font sizes,
+- non-color-only state indicators when necessary,
+- reduced-motion support.
 
-Possible KRAVV surfaces:
-
-- compact now-playing bar
-- focus playlist shortcut
-- listening context
-- playback controls
-- library entry point
-
-The Music UI should remain secondary unless music is actively being used.
-
-It should not dominate the dashboard.
+Background artwork must never reduce critical text readability.
 
 ---
 
-## 12. Glass Surface System
+# 26. Implementation Rules for Codex
 
-Suggested hierarchy:
+When implementing a visual reference:
 
-### Level 0 — Background
-
-Opaque dark/navy base.
-
-### Level 1 — Standard Surface
-
-Slightly lighter than background.
-
-Used for:
-
-- secondary cards
-- lists
-- utility panels
-
-### Level 2 — Glass Surface
-
-Semi-transparent with controlled blur.
-
-Used for:
-
-- major dashboard cards
-- command bar
-- AI panel
-- music bar
-
-### Level 3 — Active / Floating Surface
-
-Stronger border, glow, or depth.
-
-Used for:
-
-- focused modal
-- active card
-- selected context
-- current AI state
-
-Avoid stacking multiple heavy glass layers on top of each other.
+1. reproduce the hierarchy, not every pixel;
+2. preserve real data behavior;
+3. do not invent data to match a mockup;
+4. use reusable tokens;
+5. do not hardcode visual noise into components;
+6. keep background assets separate from UI logic;
+7. keep character artwork replaceable;
+8. avoid tying component structure to one wallpaper;
+9. preserve responsive behavior;
+10. keep the Home page lightweight.
 
 ---
 
-## 13. Borders and Glow
+# 27. Asset Layering Recommendation
 
-Borders should be thin and subtle.
-
-Suggested behavior:
-
-- default border: low-contrast blue-gray
-- hover: slightly brighter
-- active: blue / indigo emphasis
-- sync/activity: soft cyan pulse
-- AI state: optional blue-violet glow
-
-Glow should be localized.
-
-Do not surround every element with neon.
-
----
-
-## 14. Typography
-
-Typography should feel modern and readable.
-
-Primary characteristics:
-
-- clean sans-serif
-- medium-to-high x-height
-- readable at small dashboard sizes
-- strong hierarchy
-- minimal decorative typography
-
-Suggested hierarchy:
+Recommended layer model:
 
 ```text
-Display / Greeting
-Page Title
-Section Title
-Card Title
-Body
-Metadata
-Micro Label
+Layer 5 — Interactive UI
+Layer 4 — Glass / readable foreground surfaces
+Layer 3 — Character artwork
+Layer 2 — Environment / foliage
+Layer 1 — Base background / ambient tone
 ```
 
-Monospace may be used sparingly for:
+A character or environmental asset should never contain required UI text.
 
-- IDs
-- technical values
-- developer/debug views
-- system status
+This allows:
 
-Do not use monospace as the primary UI font.
+- artwork replacement,
+- responsive cropping,
+- opacity tuning,
+- theme adjustment,
+- future day/night variants.
 
 ---
 
-## 15. Iconography
+# 28. CSS / Rendering Strategy
 
-Icons should be:
+Prefer separate controllable layers rather than a single flattened screenshot when possible.
 
-- simple
-- rounded or geometric
-- visually consistent
-- recognizable at small sizes
-
-Avoid mixing multiple unrelated icon families.
-
-Each module may have one recognizable icon:
+Example concept:
 
 ```text
-Study   → Book / Layers
-Health  → Heart / Pulse
-Events  → Calendar
-AI      → Neural / Orb / Spark
-Music   → Wave / Note
-Notes   → Document
+base background
++
+hero/environment image
++
+masked character artwork
++
+subtle overlay
++
+UI
 ```
 
----
+If a flattened background asset is used, it should already provide:
 
-## 16. Module Accent Logic
+- left-side negative space,
+- lower negative space,
+- low-detail UI zones.
 
-KRAVV OS should use one shared color family.
-
-Suggested accents:
-
-```text
-Study   → KRAVV Blue / Indigo
-Health  → Cyan / Soft Blue
-Events  → Violet / Indigo
-AI      → Blue + Violet
-Music   → Indigo / Violet
-```
-
-These are accents, not separate brand identities.
-
-Avoid assigning completely unrelated colors to every module.
+CSS may then add only small readability adjustments.
 
 ---
 
-## 17. Interaction Behavior
+# 29. Home Visual Rule
 
-Home is for a glance. A highlight may offer a real domain destination and a
-secondary action, but it must not become a domain workspace. The card examples
-below apply where those domain surfaces actually exist.
+Before approving a Home design, ask:
 
-Cards should generally support three levels of interaction:
+### A. Can I identify the current important information immediately?
 
-```text
-View
-Open
-Act
-```
+If no:
+reduce background or decorative strength.
 
-Example:
+### B. Can I understand this week without opening another page?
 
-Study card:
+If no:
+improve weekly visual clarity.
 
-- view current progress
-- open Study module
-- trigger a relevant action
+### C. Does each domain feel different because its data is different?
 
-Avoid placing too many controls directly on dashboard cards.
+If no:
+stop duplicating card patterns.
 
-The dashboard should remain scannable.
+### D. Does it still look like one product?
 
----
+If no:
+strengthen shared typography, spacing, materials, and base palette.
 
-## 18. Responsive Behavior
+### E. Does removing the artwork still leave a usable app?
 
-Home keeps the wallpaper/greeting anchor at every size. The weekly composition
-stacks on narrow screens while preserving each domain's visual form. The
-card/context-rail/AI-panel patterns below are for future domain surfaces, not
-requirements to add those elements to Home.
-
-### Desktop
-
-Full experience:
-
-- sidebar
-- main workspace
-- optional context rail
-
-### Tablet
-
-- compact sidebar
-- main cards stack or form two columns
-- context rail moves below main content
-
-### Mobile
-
-- bottom navigation or compact drawer
-- single-column cards
-- AI panel becomes sheet/modal
-- command bar remains accessible
-- decorative ambient effects are reduced
-
-KRAVV OS should remain usable without relying on hover.
+If no:
+the artwork is carrying too much product meaning.
 
 ---
 
-## 19. Accessibility
+# 30. V0.1 Home Acceptance Criteria
 
-Visual style must not reduce usability.
+The Home design is acceptable when:
 
-Requirements:
-
-- readable contrast
-- text must remain legible over glass
-- important state cannot rely only on color
-- keyboard navigation should be possible
-- focus states must be visible
-- motion should support reduced-motion preferences
-- small metadata text should remain readable
-
-Aesthetic polish is secondary to clarity.
-
----
-
-## 20. Performance Rules
-
-Visual effects should not make KRAVV OS feel heavy.
-
-Avoid:
-
-- excessive backdrop blur
-- multiple large animated gradients
-- continuously running decorative animations
-- unnecessary 3D effects
-- large video backgrounds
-
-Prefer:
-
-- CSS transitions
-- lightweight gradients
-- subtle transforms
-- limited blur areas
-- animation only when visible
-
-The UI should remain smooth on a normal laptop.
+- the greeting is immediately readable,
+- the hero highlight is compact,
+- artwork stays visually secondary,
+- character identity remains accurate,
+- left and lower areas retain enough negative space,
+- weekly Study shows 7-day activity,
+- Health uses a distinct visual grammar,
+- Context is quieter,
+- CTAs are visible but understated,
+- background does not overpower UI,
+- the page feels complete at normal browser zoom,
+- no section exists only as decorative filler,
+- no duplicated card system dominates the page.
 
 ---
 
-## 21. Anti-Patterns
+## Design rule in one sentence
 
-Avoid:
-
-- generic AI SaaS landing-page aesthetic
-- random purple-blue gradient everywhere
-- excessive glass blur
-- neon cyberpunk styling
-- dozens of dashboard charts
-- oversized hero sections
-- excessive rounded cards
-- unnecessary widgets
-- fake complexity
-- animation without functional meaning
-- visual duplication of KRAVV-IENT
-
-KRAVV OS should feel designed for one person, not generated from a generic dashboard template.
-
----
-
-## 22. V0.1 Design Scope
-
-For the first implementation, design only enough to establish the visual language.
-
-V0.1 should include:
-
-```text
-Compact navigation rail / mobile bottom navigation
-Upper wallpaper with dark overlay
-Greeting / date
-One contextual hero highlight when meaningful data is available
-Current-week Study activity, neutral Movement rhythm, empty Context timeline
-No permanent dominant domain or fixed three-module layout
-Commands shortcut
-Settings dialog for technical details
-```
-
-Mock Study data is acceptable. Identify the source in Settings, not with a badge
-on Home. Do not add Today's Focus, AI insight placeholders, music controls, or
-system-status panels to this iteration. Health and Context retain quiet weekly
-structure without invented data; their connection status stays elsewhere. This pass changes no
-domain pages, Settings, integrations, models, or backend behavior.
-
-### Wallpaper asset
-
-`apps/web/public/images/blue-hour.png` was generated with the built-in imagegen
-tool and is served locally through Next.js Image. No remote image host is needed.
-The wallpaper is decorative and uses empty alt text. Generation prompt:
-
-> Use case: photorealistic-natural. Asset type: wide desktop wallpaper for the upper area of KRAVV OS, a personal digital environment. Create a beautiful photorealistic mountain landscape at blue hour, wide panoramic 16:9 composition. Layered rugged alpine ridgelines emerge from soft mist; a prominent detailed peak sits toward the right, the left third has calmer shadowed slopes and open sky so a short white greeting can be placed there later. Rich cobalt and deep KRAVV blue atmosphere, subtle indigo/violet light in the clouds, very restrained cool highlights on the rock. Natural photographic texture, cinematic but believable light, peaceful expansive negative space. Frame mountains in the middle and lower portions with a spacious dusk sky above. It must feel like a premium personal desktop wallpaper, not a business website. Image only: no text, logos, UI, cards, grids, charts, people, buildings, glowing orbs, sci-fi objects, or neon. Landscape 2048x1152 if possible.
-
-The goal is to answer:
-
-> Does this already feel like KRAVV OS?
-
-Only after the answer is yes should the design language be propagated to more pages.
-
----
-
-## 23. Codex Implementation Guidance
-
-When implementing KRAVV OS:
-
-- preserve the KRAVV visual identity
-- do not copy KRAVV-IENT's corporate terminal layout directly
-- favor reusable components
-- centralize design tokens
-- keep motion subtle
-- avoid adding visual complexity without purpose
-- do not invent new product modules without documentation
-- maintain responsive behavior
-- maintain accessible contrast
-- avoid provider-specific UI assumptions
-
-Recommended token groups:
-
-```text
-colors
-surfaces
-borders
-radius
-spacing
-typography
-shadow
-blur
-motion
-z-index
-```
-
-Design tokens should be defined centrally so the interface can evolve without rewriting every component.
-
----
-
-## 24. Design North Star
-
-KRAVV OS should feel like:
-
-> **A calm, intelligent, personal digital space that quietly understands what is happening in the user's day.**
-
-Not a corporate dashboard.
-
-Not a game HUD.
-
-Not a generic AI app.
-
-Not a futuristic interface for its own sake.
-
-A personal operating system.
+> **ALLVERRA should feel like a quiet personal room whose data happens to be beautifully organized — not a dashboard decorated with characters.**

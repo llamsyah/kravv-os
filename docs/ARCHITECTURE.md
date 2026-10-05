@@ -1,939 +1,872 @@
-# KRAVV OS — Architecture
+# ALLVERRA ROOM — Architecture
 
-> Status: Living document  
-> Stage: V0.1 / Early Prototype  
-> Purpose: Define the system boundaries, data flow, integration rules, and technical direction of KRAVV OS without over-engineering the first version.
+**Document:** `docs/ARCHITECTURE.md`  
+**Status:** Active baseline  
+**Version:** V0.1  
+**Purpose:** Define how ALLVERRA ROOM is structured technically, how data moves through the system, and which responsibilities belong to n8n, the backend, the database, AI, and the frontend.
 
 ---
 
 ## 1. Architecture Goal
 
-KRAVV OS should act as a personal operating layer that connects multiple external systems into one stable internal model.
+ALLVERRA ROOM is a **local-first personal system**.
 
-The core rule is:
+The architecture should optimize for:
 
-> **External services are data sources. KRAVV owns the internal model.**
+- one primary user,
+- low operating cost,
+- easy local development,
+- understandable data flow,
+- modular growth,
+- replaceable providers,
+- simple maintenance,
+- clear separation of responsibilities.
 
-KRAVV should be able to change providers later without forcing the entire application to be rewritten.
+The system should remain useful even when:
 
-Examples:
-
-- Huawei Health can later be replaced or complemented by another health provider.
-- Moodle or Open edX can later be replaced by another learning source.
-- Calendar, GitHub, Archive Tone, notes, finance, and other systems can be added gradually.
-- The frontend should not depend directly on raw provider responses.
-- AI should reason from KRAVV-normalized data, not directly from arbitrary third-party payloads.
-
----
-
-## 2. High-Level Architecture
-
-```text
-┌──────────────────────────────────────────────────────────┐
-│                    EXTERNAL SOURCES                      │
-│                                                          │
-│ Study       Health       Events       Music      Future  │
-│ LMS/API     Huawei       Calendar     Archive    Sources │
-│                                      Tone                │
-└────────┬──────────┬────────────┬───────────┬──────────────┘
-         │          │            │           │
-         ▼          ▼            ▼           ▼
-┌──────────────────────────────────────────────────────────┐
-│                       CONNECTORS                         │
-│                                                          │
-│ Provider-specific auth, fetching, parsing, mapping       │
-└──────────────────────────┬───────────────────────────────┘
-                           ▼
-┌──────────────────────────────────────────────────────────┐
-│                      NORMALIZATION                       │
-│                                                          │
-│ Provider payloads -> KRAVV internal models               │
-└──────────────────────────┬───────────────────────────────┘
-                           ▼
-┌──────────────────────────────────────────────────────────┐
-│                        KRAVV CORE                        │
-│                                                          │
-│ Application logic                                        │
-│ Sync orchestration                                       │
-│ Personal history                                         │
-│ Derived metrics                                          │
-│ Cross-domain context                                     │
-└───────────────┬───────────────────────────────┬──────────┘
-                │                               │
-                ▼                               ▼
-       ┌────────────────┐              ┌────────────────┐
-       │    DATABASE    │              │    AI LAYER    │
-       │                │              │                │
-       │ normalized     │              │ insights       │
-       │ personal data  │              │ summaries      │
-       │ history        │              │ reasoning      │
-       └───────┬────────┘              └───────┬────────┘
-               │                               │
-               └──────────────┬────────────────┘
-                              ▼
-                    ┌──────────────────┐
-                    │     KRAVV API    │
-                    └────────┬─────────┘
-                             ▼
-                    ┌──────────────────┐
-                    │     FRONTEND     │
-                    │ Dashboard / UI   │
-                    └──────────────────┘
-```
+- AI is unavailable,
+- a provider API is unavailable,
+- n8n is temporarily stopped,
+- a source is disconnected,
+- the laptop was offline for hours or days.
 
 ---
 
-## 3. V0.1 Development Strategy
-
-Do not build the complete architecture at once.
-
-The first technical goal is to prove one complete path:
+# 2. High-Level System
 
 ```text
-Mock Study Data
-      ↓
-KRAVV Backend
-      ↓
-Normalization
-      ↓
-Database
-      ↓
-KRAVV API
-      ↓
+External Sources
+  ├─ Study source
+  ├─ Huawei / Health source
+  ├─ Calendar / Context source
+  ├─ GitHub / Projects source (future)
+  └─ other sources (future)
+        ↓
+      n8n
+  fetch / schedule / filter / dedupe / prepare
+        ↓
+ALLVERRA Ingestion API
+        ↓
+Backend domain layer
+  validate
+  normalize
+  map source data
+  derive safe deterministic values
+        ↓
+Local Database
+        ↓
+Domain APIs
+  /api/home
+  /api/study
+  /api/health
+  /api/context
+  /api/insights
+        ↓
 Frontend
 ```
 
-Then replace the mock source with one real external Study connector.
-
-The order should be:
-
-1. Frontend shell
-2. Backend shell
-3. Mock Study data
-4. Internal Study model
-5. Frontend reads backend data
-6. Database persistence
-7. First real Study connector
-8. Health connector
-9. Events connector
-10. AI reasoning layer
-11. Additional modules
-
-The first milestone is not "many features."
-
-The first milestone is:
-
-> **Data enters KRAVV, becomes normalized, is stored, and appears correctly in the interface.**
+AI is a separate reasoning layer attached after normalization.
 
 ---
 
-## 4. Recommended Repository Shape
+# 3. Responsibility Boundaries
 
-The exact stack may evolve, but the logical boundaries should remain clear.
+## 3.1 n8n
 
-### Implemented V0.1 boundaries
+n8n is the **acquisition and orchestration layer**.
 
-- `apps/web`: Next.js App Router with TypeScript. The browser calls same-origin
-  `/api/*` routes forwarded by Next.js to the local FastAPI service.
-- `apps/api/kravv`: FastAPI routes, the Pydantic Study model, SQLite storage,
-  and a small mock connector. No separate connector framework or shared package.
-- `apps/api/fixtures`: initial seed and mock source JSON. Only the connector
-  understands this source shape; the frontend receives normalized Study fields.
-- `apps/api/data/kravv.sqlite3`: ignored local database, stored independently of
-  either server process. The seed runs only when no Study record exists.
+n8n is responsible for:
 
-V0.1 stores the latest snapshot of one course, keyed by `(source, external_id)`.
-The normalized record is stored as validated JSON in SQLite; historical snapshots
-and multi-course queries are deferred. Progress is completed topics / total topics,
-rounded to the nearest whole percentage (half up). Timestamps retain a timezone.
+- scheduled sync,
+- startup / catch-up sync,
+- provider HTTP requests,
+- OAuth / token workflow where practical,
+- basic filtering,
+- deduplication at transport level,
+- preparing payloads,
+- triggering downstream ALLVERRA ingestion,
+- optional external notifications.
 
-`GET /api/status`, `GET /api/study`, and `POST /api/study/sync` are implemented.
-Sync reads and validates the complete mock source before writing in a transaction.
-Repeated identical input does not duplicate the course or increase completion;
-it refreshes `synced_at`. Source errors retain the last successful record.
-Changing course identity is rejected in this single-course prototype.
+n8n should be visually understandable.
 
-The default seed is 5/12 (42%). The mock source is 6/12 (50%). Editing that source
-file and syncing demonstrates data movement without an artificial increment API.
-Backend tests isolate their database and source in temporary directories.
+The owner should be able to inspect a workflow and understand:
 
 ```text
-kravv-os/
-│
-├── AGENTS.md
-├── README.md
-│
-├── docs/
-│   ├── PRODUCT.md
-│   ├── DESIGN.md
-│   └── ARCHITECTURE.md
-│
-├── apps/
-│   ├── web/                 # frontend
-│   └── api/                 # backend
-│
-├── packages/
-│   ├── domain/              # internal models / shared types
-│   ├── connectors/          # provider integrations
-│   └── shared/              # shared utilities
-│
-├── infra/                   # Docker / deployment files later
-│
-├── .env.example
-├── docker-compose.yml
-└── package.json / workspace config
+Trigger
+→ Fetch
+→ Filter
+→ Prepare
+→ Send to ALLVERRA
 ```
 
-This structure is a direction, not a hard requirement for V0.1.
+n8n should **not** own ALLVERRA domain semantics.
 
-If a simpler single-app structure is faster for the prototype, prefer simplicity.
+Example:
+
+n8n may know:
+
+```text
+source = "huawei"
+fetched_at = "..."
+payload = {...}
+```
+
+n8n should not permanently own the rule:
+
+```text
+Huawei field X means ALLVERRA metric Y
+```
+
+That belongs in the ALLVERRA backend.
 
 ---
 
-## 5. Frontend
+## 3.2 ALLVERRA Backend
 
-The frontend is responsible for presentation and interaction.
+The backend is the **meaning layer**.
+
+It is responsible for:
+
+- validation,
+- source mapping,
+- normalization,
+- canonical field names,
+- deduplication at domain level,
+- persistence,
+- derived metrics,
+- Home view models,
+- domain endpoints,
+- AI context preparation,
+- error handling.
+
+The backend decides:
+
+> What does this data mean inside ALLVERRA?
+
+---
+
+## 3.3 Database
+
+The database is the **source of truth for normalized ALLVERRA data**.
+
+The frontend should read ALLVERRA data from the backend, not directly from:
+
+- n8n,
+- Huawei,
+- Study providers,
+- Calendar providers,
+- AI providers.
+
+V0.1 may use SQLite.
+
+The database can later migrate to PostgreSQL if needed.
+
+---
+
+## 3.4 Frontend
+
+The frontend is the **experience layer**.
 
 It should:
 
-- render normalized KRAVV data,
-- call KRAVV APIs,
-- display sync states,
-- handle navigation,
-- manage local UI state,
-- provide the KRAVV OS visual language,
-- avoid provider-specific business logic.
+- consume normalized ALLVERRA APIs,
+- render real data,
+- keep domain visual language separate,
+- handle loading / empty / error states,
+- never depend on provider-specific schemas,
+- never depend directly on n8n output.
 
-The frontend should not directly understand raw Huawei, Moodle, Open edX, or Archive Tone payloads.
+The frontend should not know whether Study came from:
+
+- fixture data,
+- Moodle,
+- Open edX,
+- a custom provider,
+- another future source.
+
+---
+
+## 3.5 AI
+
+AI is the **reasoning layer**.
+
+AI is not responsible for:
+
+- fetching raw provider data,
+- cleaning thousands of raw samples,
+- storing source data,
+- replacing deterministic calculations.
+
+AI receives prepared context.
+
+Example:
+
+```text
+Raw Health samples
+→ backend aggregation
+→ daily values + baseline
+→ context builder
+→ AI
+→ structured insight
+→ save insight
+```
+
+---
+
+# 4. Local-First Runtime
+
+V0.1 is designed to run on the owner's laptop.
+
+Expected environment:
+
+```text
+Windows
+└─ WSL2
+   └─ Docker
+      ├─ web
+      ├─ api
+      ├─ database
+      └─ n8n
+```
+
+The exact service packaging may evolve.
+
+The important rule is:
+
+> Local-first is the default deployment model.
+
+Cloud hosting is optional future infrastructure.
+
+---
+
+# 5. Suggested Repository Structure
+
+A simple structure is preferred.
+
+```text
+allverra-room/
+├─ apps/
+│  ├─ web/
+│  └─ api/
+│
+├─ packages/
+│  └─ domain/          # optional shared types / schemas
+│
+├─ automation/
+│  └─ n8n/
+│
+├─ data/
+│  └─ fixtures/
+│
+├─ docs/
+│  ├─ PRODUCT.md
+│  ├─ DESIGN.md
+│  ├─ ARCHITECTURE.md
+│  └─ decisions/
+│
+├─ docker-compose.yml
+├─ README.md
+└─ AGENTS.md
+```
+
+Do not create extra packages until they are useful.
+
+---
+
+# 6. Provider Independence
+
+Every provider should enter through an adapter / connector boundary.
+
+Example:
+
+```text
+Provider payload
+      ↓
+Provider adapter
+      ↓
+Normalized ALLVERRA model
+```
+
+The UI should depend only on normalized models.
 
 Bad:
 
 ```text
-Frontend -> Huawei API
-Frontend -> Moodle API
-Frontend -> Archive Tone API
+Home component
+→ Huawei-specific JSON
 ```
 
-Preferred:
+Good:
 
 ```text
-Frontend -> KRAVV API -> Connector -> Provider
+Home component
+→ ALLVERRA health model
 ```
-
-This keeps the UI stable even if providers change.
 
 ---
 
-## 6. Backend
+# 7. Ingestion Contract
 
-The backend is the main application boundary.
-
-Responsibilities may include:
-
-- API endpoints
-- connector orchestration
-- normalization
-- persistence
-- sync state
-- derived metrics
-- personal history
-- AI context preparation
-- future authentication
-- future background jobs
-
-The backend should stay modular.
-
-Provider-specific code should live behind connector boundaries.
-
----
-
-## 7. Connector Architecture
-
-Each external service should behave like an adapter.
-
-Conceptually:
-
-```text
-StudyConnector
-HealthConnector
-EventsConnector
-MusicConnector
-```
-
-A connector may contain:
-
-```text
-authenticate()
-fetch()
-map()
-sync()
-status()
-```
-
-Exact interfaces can be defined when the first real connector is implemented.
+n8n should send a predictable envelope.
 
 Example:
 
-```text
-Moodle API
-   ↓
-MoodleConnector
-   ↓
-KRAVV Study Model
+```json
+{
+  "source": "huawei",
+  "fetched_at": "2026-10-04T10:00:00+07:00",
+  "payload": {}
+}
 ```
 
-Later:
+The backend then:
 
-```text
-Open edX API
-   ↓
-OpenEdXConnector
-   ↓
-KRAVV Study Model
-```
+1. validates the source,
+2. validates the payload,
+3. maps it,
+4. normalizes it,
+5. deduplicates it,
+6. persists it.
 
-The Study UI should not care which provider supplied the data.
+Provider-specific payloads should stay behind ingestion boundaries.
 
 ---
 
-## 8. Normalized Data Model
+# 8. Sync Strategy
 
-KRAVV should define its own domain models.
+The system should support three sync modes.
 
-Initial conceptual models:
+## 8.1 Startup / Catch-Up Sync
 
-```text
-Study
-Health
-Event
-Music
-```
-
-### Study
-
-Possible fields:
+When the local environment starts:
 
 ```text
-course
-subject
-module
-topic
-completion
-score
-time_spent
-last_activity
-source
-external_id
+start
+↓
+check last successful sync
+↓
+determine missing period
+↓
+fetch historical range if provider supports it
+↓
+ingest
+↓
+update sync state
 ```
 
-### Health
-
-Possible fields:
-
-```text
-metric_type
-value
-unit
-recorded_at
-source
-external_id
-```
-
-### Event
-
-Possible fields:
-
-```text
-title
-start_time
-end_time
-category
-status
-source
-external_id
-```
-
-### Music
-
-Future example:
-
-```text
-track
-artist
-album
-playlist
-playback_state
-played_at
-source
-external_id
-```
-
-These schemas are intentionally conceptual for now.
-
-Create a dedicated data model document only after actual implementation makes the structure concrete.
+This avoids requiring the laptop to run 24/7.
 
 ---
 
-## 9. Database
+## 8.2 Scheduled Sync
 
-V0.1 does not require a complex database.
-
-The first database should optimize for:
-
-- local development
-- easy migration
-- fast iteration
-- inspectable data
-- reliable persistence
-
-SQLite is acceptable for the earliest prototype.
-
-PostgreSQL becomes useful when:
-
-- concurrency matters,
-- remote hosting begins,
-- data volume increases,
-- richer querying becomes necessary,
-- background sync grows more complex.
-
-Do not migrate only because PostgreSQL sounds more "production."
-
----
-
-## 10. Sync Model
-
-External sources should not be assumed to update KRAVV continuously.
-
-V0.1 may use manual sync.
-
-Example:
-
-```text
-[ Sync Study Data ]
-```
-
-Flow:
-
-```text
-User requests sync
-      ↓
-Backend calls connector
-      ↓
-Connector fetches provider data
-      ↓
-Data is normalized
-      ↓
-Database is updated
-      ↓
-Frontend receives new state
-```
-
-Later sync strategies may include:
-
-- scheduled sync
-- provider webhooks
-- background jobs
-- event-based refresh
-
-Do not add background infrastructure until needed.
-
----
-
-## 11. Source Tracking
-
-Normalized data should retain source metadata.
-
-Example:
-
-```text
-source: "moodle"
-external_id: "course_123"
-synced_at: "..."
-```
-
-This helps with:
-
-- debugging
-- preventing duplicates
-- updating records
-- provider migration
-- sync history
-- auditing unexpected values
-
-KRAVV owns the normalized record while still remembering where it came from.
-
----
-
-## 12. AI Architecture
-
-AI is not the first dependency.
-
-The system should work without AI.
-
-Later:
-
-```text
-KRAVV Data
-    ↓
-Context Builder
-    ↓
-AI Model
-    ↓
-Structured Insight
-    ↓
-Frontend
-```
-
-The AI layer should primarily consume:
-
-- normalized data
-- derived metrics
-- selected history
-- user context
-- relevant current events inside KRAVV
-
-It should not receive every raw record by default.
-
-The context builder should decide what information is relevant.
-
----
-
-## 13. AI Output Types
-
-Potential outputs:
-
-```text
-Daily Brief
-Weekly Review
-Study Insight
-Schedule Summary
-Cross-Domain Pattern
-Question Answering
-```
+While the laptop is running, n8n may trigger periodic sync.
 
 Examples:
 
-```text
-Sleep duration was lower than your recent baseline,
-while study activity also decreased.
-```
+- Health every few hours,
+- Context at startup and periodically,
+- Study after likely learning windows,
+- final evening sync before recap.
 
-or:
-
-```text
-You completed two Mathematics topics this week.
-Conditional Probability is currently the active topic.
-```
-
-AI should distinguish observed data from interpretation.
+The exact cadence should remain configurable.
 
 ---
 
-## 14. Local-First Development
+## 8.3 Manual Sync
 
-KRAVV OS should be easy to run locally.
+Manual sync is useful during:
 
-Current milestone runs directly on the local machine using Node.js and a Python
-virtual environment. Both services bind to `127.0.0.1`. Docker and WSL2 are not
-required for the mock loop; no production deployment is configured.
+- development,
+- debugging,
+- provider testing,
+- temporary V0.1 workflows.
 
-Possible later environment:
-
-```text
-Windows
-   ↓
-WSL2 Ubuntu
-   ↓
-Docker
-   ↓
-KRAVV services
-```
-
-Local development allows:
-
-- zero-cost experimentation,
-- fast connector testing,
-- local AI experimentation,
-- direct database inspection,
-- safer prototyping before internet exposure.
-
-Remote hosting can be considered later.
+It should remain secondary in the UI.
 
 ---
 
-## 15. Docker
+# 9. Sync State
 
-Docker may be used for:
+Track synchronization explicitly.
 
-- KRAVV backend
-- database
-- Moodle
-- Open edX
-- supporting services
-
-Do not containerize something only for ceremony.
-
-For V0.1, use Docker where it genuinely simplifies setup or isolates dependencies.
-
----
-
-## 16. Study Integration Strategy
-
-Study is the first external integration target.
-
-Candidate sources:
+Suggested fields:
 
 ```text
-Moodle
-Open edX
-KRAVV-native mock/manual data
-```
-
-The integration test should prove:
-
-```text
-Complete / update something in Study source
-                ↓
-Sync KRAVV
-                ↓
-KRAVV reads changed state
-                ↓
-Normalized data changes
-                ↓
-Dashboard changes
-```
-
-Example:
-
-```text
-TKA Mathematics
-
-Progress
-42% -> 50%
-
-Completed
-5/12 -> 6/12
-```
-
-That is the first meaningful integration proof.
-
----
-
-## 17. Health Integration Strategy
-
-Initial candidate:
-
-```text
-Huawei Health / Health Kit
-```
-
-Possible flow:
-
-```text
-Huawei data
-    ↓
-Huawei connector
-    ↓
-KRAVV Health model
-    ↓
-Database
-    ↓
-Health dashboard
-    ↓
-AI context later
-```
-
-Access will depend on supported APIs, permissions, region, account setup, and available device metrics.
-
-KRAVV should not assume every metric is always available.
-
----
-
-## 18. Events Integration Strategy
-
-Events may initially support:
-
-- manual KRAVV events
-- calendar import
-- external calendar connectors later
-
-Normalized events should allow the rest of KRAVV to reason about time.
-
-Example:
-
-```text
-Tomorrow:
-09:00 Mathematics
-13:00 Project Discussion
-19:00 Gym
-```
-
-This context may later influence Study or AI suggestions.
-
----
-
-## 19. Music Integration Strategy
-
-Archive Tone is a future candidate source.
-
-Potential architecture:
-
-```text
-Archive Tone
-     ↓
-Music Connector
-     ↓
-KRAVV Music Model
-     ↓
-Now Playing / Library Context / Focus Music
-```
-
-Do not integrate it until the core Study data path is proven.
-
-Music should remain a modular connector rather than becoming a dependency of KRAVV Core.
-
----
-
-## 20. System Status
-
-Each connector should eventually expose health/status information.
-
-Example:
-
-```text
-Study Engine      synced 2 min ago
-Huawei Health     synced 5 min ago
-Calendar          synced 1 min ago
-Archive Tone      connected
-```
-
-A provider outage should not crash unrelated KRAVV modules.
-
----
-
-## 21. Failure Isolation
-
-External integrations will fail sometimes.
-
-Possible causes:
-
-- expired token
-- provider downtime
-- network failure
-- changed API response
-- permission revoked
-- missing metric
-- rate limit
-
-KRAVV should fail gracefully.
-
-Example:
-
-```text
-Health data unavailable
-Last successful sync: 08:42
-```
-
-Study and Events should continue working.
-
----
-
-## 22. Provider Independence
-
-Avoid this:
-
-```text
-study_progress_huawei
-moodle_percentage
-edx_unit_id
-```
-
-Prefer this:
-
-```text
-progress
 source
-external_id
+last_attempt_at
+last_success_at
+status
+records_received
+records_written
+error_message
 ```
 
-Provider-specific fields should stay inside connector-specific layers unless they represent a genuinely useful domain concept.
+A failed sync should not destroy previously stored data.
 
 ---
 
-## 23. Configuration and Secrets
+# 10. Study Domain
 
-Secrets must not be committed to Git.
+Study is the first functional proof.
 
-Use environment variables or local secret storage for:
-
-```text
-API keys
-OAuth secrets
-access tokens
-database credentials
-AI provider keys
-```
-
-Repository should contain:
+Suggested normalized concepts:
 
 ```text
-.env.example
+study_source
+course
+subject
+topic
+progress
+session
+daily_activity
+last_activity
+synced_at
 ```
 
-but not real credentials.
+Do not define fields before they are useful.
+
+V0.1 may begin with:
+
+- subject,
+- topic,
+- progress,
+- last_activity,
+- source,
+- external_id,
+- synced_at.
+
+Later, daily history can support the weekly contribution visualization properly.
 
 ---
 
-## 24. Authentication
+# 11. Health Domain
 
-V0.1 is personal and local-first.
+Health should normalize provider-specific data into stable internal metrics.
 
-Complex multi-user authentication is not required immediately.
+Possible normalized concepts:
 
-Authentication should be revisited when:
+```text
+health_daily
+movement_daily
+sleep_daily
+heart_rate_summary
+hrv_summary
+spo2_summary
+exercise_session
+```
 
-- KRAVV becomes remotely accessible,
-- data leaves the local machine,
-- multiple users are supported,
-- external provider OAuth requires hosted callbacks.
+Raw high-frequency samples may be stored separately only when useful.
 
-Do not build enterprise identity infrastructure during the prototype stage.
+Home should not query thousands of raw samples.
+
+Prefer derived daily summaries.
 
 ---
 
-## 25. API Design
+# 12. Context Domain
 
-The frontend should communicate with KRAVV through stable domain endpoints.
-
-Conceptual examples:
+Context may contain:
 
 ```text
-GET /api/dashboard
-GET /api/study
+event
+calendar_item
+deadline
+note
+daily_annotation
+```
+
+Event and Note should remain separate entities even if they are shown together.
+
+Context may later be used by AI to explain patterns.
+
+---
+
+# 13. Home API
+
+Home should receive a compact view model.
+
+Example:
+
+```json
+{
+  "date": "2026-10-04",
+  "highlight": {
+    "domain": "study",
+    "title": "Mathematics",
+    "subtitle": "Conditional Probability",
+    "progress": 50
+  },
+  "week": {
+    "study": {},
+    "health": {},
+    "context": {}
+  }
+}
+```
+
+Home should not assemble data from many provider endpoints in the browser.
+
+The backend prepares Home data.
+
+---
+
+# 14. Domain APIs
+
+Suggested early routes:
+
+```text
+GET  /api/home
+
+GET  /api/study
 POST /api/study/sync
 
-GET /api/health
+GET  /api/health
 POST /api/health/sync
 
-GET /api/events
-POST /api/events/sync
+GET  /api/context
+POST /api/context/sync
 ```
 
-Exact routes can evolve.
+These are conceptual.
 
-Prefer APIs shaped around KRAVV concepts rather than provider concepts.
+Use the framework's existing route conventions.
+
+Do not create endpoints that are not yet needed.
 
 ---
 
-## 26. Observability
+# 15. AI Pipeline
 
-V0.1 needs basic visibility, not a monitoring platform.
+V0.1 should use a deterministic pipeline.
 
-Useful development information:
+Example:
 
 ```text
-connector called
+load normalized data
+↓
+filter relevant records
+↓
+calculate deterministic metrics
+↓
+build compact context
+↓
+call model
+↓
+validate structured output
+↓
+save insight
+```
+
+AI is one step in the pipeline.
+
+It is not the pipeline.
+
+---
+
+# 16. AI Context Rules
+
+Do not send:
+
+- complete raw wearable dumps,
+- full database history,
+- every event,
+- every note,
+- unnecessary provider metadata.
+
+Prefer compact context.
+
+Example:
+
+```json
+{
+  "sleep_today_minutes": 402,
+  "sleep_baseline_7d_minutes": 438,
+  "resting_hr_today": 64,
+  "study_minutes_today": 74,
+  "study_topic": "Conditional Probability",
+  "upcoming_events": 1
+}
+```
+
+---
+
+# 17. AI Output
+
+Prefer structured output.
+
+Example:
+
+```json
+{
+  "summary": "...",
+  "signals": [],
+  "confidence": 0.82
+}
+```
+
+Validate before saving.
+
+The frontend should read saved insights from ALLVERRA.
+
+Opening Home should not automatically trigger a model call.
+
+---
+
+# 18. Cost Control
+
+Track model usage.
+
+Suggested table:
+
+```text
+ai_usage
+model
+pipeline
+input_tokens
+output_tokens
+estimated_cost
+created_at
+```
+
+Routine AI work should use an economical model.
+
+More expensive reasoning models should be reserved for genuinely complex analysis.
+
+---
+
+# 19. Startup Experience
+
+The owner should not need a development ritual every day.
+
+Target experience:
+
+```text
+Windows starts
+↓
+Docker starts
+↓
+ALLVERRA services start
+↓
+n8n workflows become available
+↓
+catch-up sync runs
+↓
+Home opens with stored data
+↓
+fresh data updates when available
+```
+
+A one-click launcher may be added later.
+
+---
+
+# 20. Persistence
+
+All important ALLVERRA state must survive restarts.
+
+Use persistent Docker volumes or host-mounted storage for:
+
+- database,
+- n8n state,
+- other required local application data.
+
+Do not store important state only inside ephemeral containers.
+
+---
+
+# 21. Backups
+
+V0.1 should eventually support a simple backup strategy.
+
+At minimum:
+
+- database file backup,
+- n8n workflow export,
+- environment configuration documented,
+- assets stored in the repo where appropriate.
+
+Do not over-engineer backup infrastructure.
+
+---
+
+# 22. Secrets
+
+Secrets should stay outside Git.
+
+Use environment variables / local secret files.
+
+Examples:
+
+- provider tokens,
+- API keys,
+- AI keys.
+
+Do not expose secrets to the frontend.
+
+---
+
+# 23. Logging
+
+Logging should make data flow understandable.
+
+Useful logs:
+
+```text
 sync started
-sync succeeded
-sync failed
-records updated
-provider response error
+records fetched
+records accepted
+records normalized
+records persisted
+sync finished
+AI analysis started
+AI output validated
 ```
 
-Simple structured logs are enough initially.
+Avoid logging sensitive raw personal data unnecessarily.
 
 ---
 
-## 27. Testing Priorities
+# 24. Error Handling
 
-The most important tests are around boundaries.
+Errors should be local and recoverable.
 
-Test:
+Examples:
 
-- normalization
-- connector mapping
-- API contracts
-- sync behavior
-- database persistence
-- failure handling
+- provider unavailable,
+- invalid payload,
+- token expired,
+- network unavailable,
+- AI unavailable.
 
-For the frontend, prioritize:
+The app should retain previously stored data.
 
-- key dashboard rendering
-- loading states
-- sync states
-- error states
-
-Avoid spending excessive time snapshot-testing purely decorative UI.
+Provider failure should not break the Home page entirely.
 
 ---
 
-## 28. What Not to Build Yet
+# 25. Data History
 
-Avoid introducing these without a real requirement:
+Where useful, keep history.
 
-- microservices
-- Kubernetes
-- event streaming infrastructure
-- distributed queues
-- elaborate plugin marketplaces
-- multiple databases
-- complex caching layers
-- vector databases by default
-- autonomous agents
-- real-time websockets everywhere
-- enterprise multi-tenancy
+Do not overwrite everything with only the current value if future trends require history.
 
-KRAVV OS should earn complexity.
+Examples where history matters:
+
+- Study daily activity,
+- movement,
+- sleep,
+- events,
+- AI insight history.
+
+V0.1 can begin small and add migrations later.
 
 ---
 
-## 29. Architectural Decision Rule
+# 26. Database Evolution
 
-When choosing between two implementations, prefer the simpler one if both:
+Use migrations once the schema becomes meaningful.
 
-- satisfy the current requirement,
-- preserve provider independence,
-- can be changed later without major damage.
+Do not rely on deleting the database whenever a field changes.
 
-Architecture should make future change possible without making the present unnecessarily complicated.
+The system is intended to live for years.
+
+Schema changes should preserve accumulated personal history.
 
 ---
 
-## 30. V0.1 Success Criteria
+# 27. Observability
 
-Architecture V0.1 is proven when all of this works:
+The owner should be able to understand:
+
+- when data last synced,
+- whether a source failed,
+- what the AI pipeline ran,
+- how much AI usage occurred.
+
+This information belongs in Settings / Debug surfaces.
+
+Do not clutter Home with infrastructure status.
+
+---
+
+# 28. Security Boundary
+
+V0.1 is local-first.
+
+Services should not be exposed publicly by default.
+
+Prefer binding internal services to localhost / the local environment.
+
+If remote access is added later, security must be revisited explicitly.
+
+---
+
+# 29. What Not to Build Yet
+
+Do not add prematurely:
+
+- Kubernetes,
+- microservices,
+- message queues,
+- event streaming platforms,
+- distributed caching,
+- enterprise auth,
+- multi-tenancy,
+- public APIs,
+- complex agent frameworks,
+- autonomous background agents.
+
+V0.1 is one person's system.
+
+Keep it understandable.
+
+---
+
+# 30. Future Expansion
+
+Potential future domains:
+
+- Projects,
+- GitHub,
+- Knowledge,
+- Finance,
+- Career,
+- Campus,
+- Music,
+- Archive.
+
+A new domain should plug into the same architecture:
 
 ```text
-1. KRAVV frontend runs.
-2. KRAVV backend runs.
-3. Frontend can call backend.
-4. Study mock data is normalized.
-5. Data persists.
-6. Dashboard displays it.
-7. A sync action changes visible state.
-8. One real Study provider can later replace the mock source
-   without redesigning the frontend.
+source
+→ n8n / connector
+→ ingestion
+→ normalize
+→ persist
+→ API
+→ domain UI
 ```
-
-That is enough.
-
-Everything else can grow from there.
 
 ---
 
-## 31. North Star
+# 31. Architecture Acceptance Criteria
 
-KRAVV OS architecture should feel boring in the right places.
+The V0.1 architecture is healthy if:
 
-Connectors may change.
+1. the frontend can run without knowing provider schemas,
+2. n8n can be removed temporarily without destroying stored data,
+3. AI can be disabled without breaking core functionality,
+4. source data can change without requiring a Home redesign,
+5. data persists across restarts,
+6. missed syncs can catch up later,
+7. one provider failure does not break unrelated domains,
+8. the system remains understandable to one developer,
+9. adding a future domain does not require rewriting the whole application,
+10. local operation remains inexpensive.
 
-Providers may disappear.
+---
 
-The interface may evolve.
+## Architecture rule in one sentence
 
-AI models will change.
-
-The internal KRAVV concepts should remain understandable.
-
-> **Stable core, replaceable edges.**
+> **n8n moves data, ALLVERRA gives it meaning, the database remembers it, and the UI makes it useful.**
