@@ -93,7 +93,7 @@ svg {
   align-items: center;
   flex-direction: column;
   padding: 30px 0 24px;
-  background: #ece9f040;
+  background: var(--shell-surface);
   backdrop-filter: blur(var(--blur));
   -webkit-backdrop-filter: blur(var(--blur));
   border-right: 1px solid var(--border);
@@ -126,7 +126,7 @@ svg {
     color var(--motion),
     background var(--motion);
 }
-.rail-link:hover {
+.rail-link:not(.rail-presence):hover {
   color: var(--text);
   background: #29282e06;
 }
@@ -191,15 +191,15 @@ svg {
   justify-content: space-between;
 }
 .wordmark {
-  font-size: 15px;
-  font-weight: 650;
-  letter-spacing: 2.6px;
+  font-size: 12px;
+  font-weight: 550;
+  letter-spacing: 1.5px;
   display: flex;
   align-items: baseline;
   gap: 9px;
 }
 .wordmark span {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 400;
   color: var(--muted);
   letter-spacing: 1.4px;
@@ -212,7 +212,7 @@ svg {
   border: 1px solid var(--glass-edge);
   border-radius: 10px;
   padding: 10px 12px;
-  background: var(--glass);
+  background: #f5f3fab3;
   box-shadow: inset 0 1px #ffffff80;
   backdrop-filter: blur(var(--blur));
   -webkit-backdrop-filter: blur(var(--blur));
@@ -259,7 +259,7 @@ main {
   padding: 16px 22px;
   border: 1px solid var(--glass-edge);
   border-radius: var(--radius);
-  background: var(--glass);
+  background: var(--glass-highlight);
   backdrop-filter: blur(var(--blur));
   -webkit-backdrop-filter: blur(var(--blur));
 }
@@ -399,7 +399,7 @@ main {
 .week-context {
   border: 1px solid var(--glass-edge);
   border-radius: var(--radius);
-  background: #f9f7ff78;
+  background: var(--glass-study);
   box-shadow:
     inset 0 1px #ffffff80,
     var(--glass-shadow);
@@ -430,7 +430,7 @@ main {
   min-height: 32px;
   margin-top: 12px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   border-radius: 3px;
   transition: color 200ms ease;
 }
@@ -476,11 +476,11 @@ a.domain-doorway:focus-visible svg {
   display: contents;
 }
 .week-health {
-  background: #f2f3faab;
+  background: var(--glass-health);
 }
 .week-context {
   grid-column: 1 / -1;
-  background: #f4f2f990;
+  background: var(--glass-context);
 }
 .week-health,
 .week-context {
@@ -497,9 +497,15 @@ a.domain-doorway:focus-visible svg {
 }
 .week-domain-heading h3 {
   color: var(--text);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 550;
   letter-spacing: 0.25px;
+}
+.week-study .week-domain-heading h3 {
+  color: var(--study);
+}
+.week-health .week-domain-heading h3 {
+  color: var(--health);
 }
 .week-health .week-domain-heading {
   color: var(--health);
@@ -520,15 +526,15 @@ a.domain-doorway:focus-visible svg {
 }
 .weekday-label {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
 }
 .study-day-mark {
   position: relative;
   display: block;
   height: 32px;
-  border: 1px solid #76549e30;
+  border: 1px solid #7355a33d;
   border-radius: 5px;
-  background: #76549e0c;
+  background: #7355a312;
 }
 .study-day-mark.recorded {
   border-color: var(--study-soft);
@@ -618,9 +624,9 @@ a.domain-doorway:focus-visible svg {
 .movement-mark {
   width: 14px;
   height: 44px;
-  border: 1px solid #3e506b65;
+  border: 1px solid #354d7a80;
   border-radius: 8px;
-  background: linear-gradient(180deg, #3e506b0c, #3e506b03);
+  background: linear-gradient(180deg, #354d7a18, #354d7a06);
 }
 .movement-label {
   color: var(--muted);
@@ -893,7 +899,7 @@ a.domain-doorway:focus-visible svg {
     justify-content: space-around;
     border-right: 0;
     border-top: 1px solid var(--border);
-    background: #e6e3ede8;
+    background: var(--shell-surface);
   }
   .navigation-rail .brand-mark {
     display: none;
@@ -929,7 +935,7 @@ a.domain-doorway:focus-visible svg {
     display: none;
   }
   .wordmark {
-    font-size: 13px;
+    font-size: 12px;
   }
   .greeting {
     padding: 38px 3px 30px;

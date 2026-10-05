@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import homeBackground from "../public/images/allverra/home-background.png";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
@@ -209,13 +210,7 @@ export default function Dashboard() {
   return (
     <div className="app-shell">
       <div className="home-wallpaper" aria-hidden="true">
-        <Image
-          src="/images/allverra/home-background.png"
-          alt=""
-          fill
-          sizes="100vw"
-          preload
-        />
+        <Image src={homeBackground} alt="" fill sizes="100vw" preload />
       </div>
       <a className="skip-link" href="#overview">
         Skip to Home
@@ -247,6 +242,20 @@ export default function Dashboard() {
             <BookOpen size={21} strokeWidth={1.6} />
             <span>Study</span>
           </a>
+          <span
+            className="rail-link rail-presence"
+            aria-label="Health, section not available yet"
+          >
+            <HeartPulse size={21} strokeWidth={1.6} aria-hidden="true" />
+            <span>Health</span>
+          </span>
+          <span
+            className="rail-link rail-presence"
+            aria-label="Context, section not available yet"
+          >
+            <CalendarDays size={21} strokeWidth={1.6} aria-hidden="true" />
+            <span>Context</span>
+          </span>
         </nav>
         <button
           className="rail-link settings-link"
