@@ -1,9 +1,9 @@
-# ALLVERRA ROOM — Design System & Home Direction
+# ALLVERRA ROOM — Design System & Visual Direction
 
 **Document:** `docs/DESIGN.md`  
 **Status:** Active baseline  
-**Version:** V0.1  
-**Purpose:** Define the visual system, composition rules, background behavior, character usage, and Home-page hierarchy for ALLVERRA ROOM.
+**Version:** V0.2  
+**Purpose:** Define ALLVERRA ROOM's visual system, Home composition, domain-specific artwork strategy, character usage, background behavior, and UI hierarchy.
 
 ---
 
@@ -26,11 +26,11 @@ The interface should feel:
 - personal,
 - softly atmospheric,
 - visually intentional,
-- modern without looking over-designed.
+- modern without becoming sterile.
 
-The UI remains the main subject.
+The UI remains the primary subject.
 
-The background and character artwork support the experience rather than compete with it.
+Artwork, lighting, foliage, character scenes, and environment provide atmosphere and identity without overpowering the information.
 
 ---
 
@@ -38,459 +38,85 @@ The background and character artwork support the experience rather than compete 
 
 ## Clean first. Personality second. Decoration third.
 
-When a visual decision creates tension between beauty and readability:
+ALLVERRA should not become colorless in the name of cleanliness.
 
-**reduce the background or decoration before increasing UI heaviness.**
+A clean interface may still contain:
 
-Do not solve a busy background by adding:
+- muted violet,
+- navy,
+- environmental lighting,
+- foliage,
+- soft floral detail,
+- character presence,
+- subtle event colors.
 
-- stronger shadows,
-- darker card fills,
-- heavier borders,
-- excessive blur,
-- more containers.
+When readability competes with artwork:
 
-Instead, reduce the visual strength of the background.
+**adjust the artwork locally before making the UI heavier.**
 
----
+Prefer:
 
-# 3. Visual Hierarchy
+- local masks,
+- localized wash,
+- controlled opacity,
+- contrast reduction,
+- subtle blur in specific areas.
 
-The visual hierarchy should remain predictable.
+Avoid solving readability by adding:
 
-From strongest to quietest:
-
-1. **Primary UI content**
-2. **Current / relevant data**
-3. **Domain accent**
-4. **Character artwork**
-5. **Environmental background**
-6. **Decorative foliage / texture**
-
-Approximate contrast hierarchy:
-
-```text
-UI text + important data         100%
-Interactive states               90–100%
-Character focal area             55–70%
-Environmental illustration       30–45%
-Foliage / texture                15–30%
-Ambient atmosphere               10–20%
-```
-
-These values are guidance, not strict CSS constants.
-
-The intended result is simple:
-
-> The user should notice the information before noticing how beautiful the background is.
+- dark opaque cards,
+- heavy shadows,
+- thick borders,
+- large white overlays,
+- full-page bleaching.
 
 ---
 
-# 4. ALLVERRA Base Palette
+# 3. Global App Shell
 
-ALLVERRA uses a shared neutral foundation.
+The app shell is shared across Home, Study, Health, and Context.
 
-## Base
+Shared elements:
 
-- warm white / off-white
-- soft gray
-- graphite
-- charcoal
-- near-black
+- left navigation,
+- ALLVERRA ROOM wordmark,
+- navigation icons,
+- Settings access,
+- search / command entry where available,
+- typography system,
+- spacing system,
+- glass/material tokens.
 
-Avoid pure black unless used sparingly.
-
-Avoid strongly saturated blue as the global identity.
-
----
-
-## Domain accents
-
-### Study / Lyverra
-
-Primary accent:
-
-- muted violet
-- lavender
-- soft desaturated purple
-
-Use violet for:
-
-- active Study state,
-- weekly activity intensity,
-- Study CTA,
-- focus indicator,
-- subtle ambient reflection.
-
-Do not fill large areas with saturated purple.
+The app shell should remain visually stable while domain content changes.
 
 ---
 
-### Health / Alverixx
+## 3.1 Navbar / Sidebar
 
-Primary accent:
+The sidebar is intentionally **plain and neutral**.
 
-- deep navy
-- cool gray
-- steel gray
-- subtle blue-white
+It should not contain environment-specific decoration such as:
 
-Use navy for:
+- flowers,
+- foliage,
+- character elements,
+- domain-specific illustration.
 
-- Health activity state,
-- selected movement day,
-- important metric,
-- small chart / rhythm emphasis,
-- Health CTA.
+Reason:
 
-The Health section may feel more analytical than Study.
+Each domain may use a different background scene.
 
----
+The navbar must remain consistent across all of them.
 
-### Context
+Preferred behavior:
 
-Default accent:
+- translucent neutral surface,
+- enough local wash to remain readable,
+- subtle divider or edge,
+- environment may faintly show through,
+- but decorative artwork should not visually belong to the navbar.
 
-- neutral gray
-- graphite
-- soft white
-
-Context should usually be quieter than Study and Health.
-
-Do not introduce a third strong color unless future product meaning requires it.
-
----
-
-# 5. Material Language
-
-ALLVERRA may use glassmorphism, but glass is a **material**, not a layout strategy.
-
-Do not put every section inside the same rounded translucent rectangle.
-
-Use glass only where it helps:
-
-- separate foreground information from the background,
-- create local focus,
-- improve readability,
-- support floating UI,
-- communicate interaction.
-
-Recommended glass behavior:
-
-- neutral or slightly warm white tint,
-- low opacity,
-- subtle blur,
-- thin low-contrast border,
-- minimal shadow.
-
-Avoid:
-
-- blue-tinted glass everywhere,
-- excessive blur,
-- bright glowing borders,
-- thick shadows,
-- oversized bubbles.
-
----
-
-# 6. Background System
-
-The Home background is a designed visual layer, not just a CSS gradient.
-
-It should already contain a natural visual transition from the upper Hero area into a quieter lower area.
-
-The lower Home area must remain suitable for weekly data.
-
-## Background composition
-
-The background should provide:
-
-- character artwork in the upper-right area,
-- environmental framing,
-- large usable negative space on the left,
-- large usable negative space below,
-- low-contrast transition into the weekly area,
-- subtle foliage or environmental texture.
-
-The background should not contain:
-
-- readable text,
-- logos,
-- fake UI,
-- strong decorative objects behind important data,
-- high-frequency detail across the whole screen.
-
----
-
-## Background strength
-
-The background should be adjusted in the UI layer if needed.
-
-Useful controls:
-
-- opacity,
-- contrast,
-- saturation,
-- brightness,
-- overlay,
-- blur in selected areas,
-- masked fade.
-
-Recommended starting point:
-
-```text
-Character artwork opacity:
-55–70%
-
-Environment detail:
-20–40%
-
-Decorative foliage:
-15–30%
-
-Saturation:
-slightly reduced
-
-Foreground UI:
-full readability
-```
-
-Do not apply one global opacity blindly if local masking works better.
-
----
-
-## Hero-to-content transition
-
-The transition should feel embedded into the artwork.
-
-Preferred:
-
-- soft light wash,
-- mist / environmental fade,
-- low-detail lower region,
-- gradual value transition,
-- negative space.
-
-Avoid:
-
-- obvious rectangular overlays,
-- hard horizontal gradient cuts,
-- sudden background-color changes,
-- heavy dark fades unless required by a dark theme variant.
-
-CSS may support the transition, but should not be solely responsible for it.
-
----
-
-# 7. Decorative Foliage
-
-Foliage is optional atmospheric framing.
-
-It may appear:
-
-- behind the sidebar,
-- at far left,
-- lower corners,
-- far right edge,
-- as soft shadows or blurred foreground elements.
-
-Foliage is not part of navigation.
-
-If visible behind translucent UI, it should remain subtle.
-
-Do not treat foliage as a mandatory ALLVERRA logo motif.
-
-If another environmental motif works better later, it may replace foliage.
-
----
-
-# 8. Character Identity
-
-Character sheets are the canonical source of truth.
-
-Generated background images are **not** canonical references for:
-
-- face,
-- hairstyle,
-- proportions,
-- outfit identity,
-- eye design.
-
-When generating new artwork, preserve character identity first and composition second.
-
----
-
-## 8.1 Alverixx
-
-Visual identity:
-
-- white / silver-white hair,
-- calm / distant expression,
-- slim young male proportions,
-- gray / white / black clothing language,
-- long gray coat when using the established outfit,
-- white shirt,
-- dark trousers,
-- understated styling.
-
-Eyes:
-
-- right eye: cool blue,
-- left eye: muted gray,
-- left eye reflects corneal damage,
-- effect must remain subtle and non-graphic.
-
-Character energy:
-
-- quiet,
-- detached,
-- relaxed,
-- slightly aloof,
-- not performative.
-
-Avoid:
-
-- generic glossy anime face,
-- overly heroic pose,
-- excessive emotion,
-- strong cyberpunk treatment.
-
----
-
-## 8.2 Lyverra
-
-Visual identity:
-
-- very long black hair,
-- hair remains loose,
-- no invented ponytail,
-- no invented ribbon unless the canonical character sheet includes it,
-- natural straight / softly flowing hair,
-- subtle violet strands or undertone,
-- calm narrow-soft eyes,
-- slim face,
-- understated expression.
-
-Eyes:
-
-- soft brown.
-
-Outfit language:
-
-- muted violet cardigan,
-- white inner shirt,
-- black lower garment,
-- elegant and calm silhouette.
-
-Character energy:
-
-- older-sister presence,
-- calm,
-- mature,
-- observant,
-- emotionally softer than Alverixx without becoming overly cute.
-
-Avoid:
-
-- generic anime-girl face,
-- exaggerated violet eyes,
-- overly glossy hair,
-- yandere expression,
-- artificial accessories not present in the reference.
-
----
-
-# 9. Character Relationship in Home Artwork
-
-Lyverra is the older sister.
-
-Alverixx is the younger sibling.
-
-The Home artwork should communicate familiarity without turning into a dramatic poster.
-
-Possible pose direction:
-
-- both relaxed,
-- Alverixx slightly more casual / unconcerned,
-- Lyverra visually steadier,
-- no forced camera-facing pose,
-- no exaggerated emotional scene.
-
-The pair should occupy mainly the upper-right composition.
-
-Do not let the artwork consume the entire layout.
-
----
-
-# 10. Character Art Style
-
-Target:
-
-**clean editorial manga illustration with soft matte texture**
-
-Characteristics:
-
-- clean but slightly human linework,
-- visible drawing structure,
-- soft desaturated shading,
-- matte color treatment,
-- restrained highlights,
-- subtle paper / brush texture,
-- low-gloss rendering.
-
-Avoid:
-
-- hyper-polished AI anime rendering,
-- plastic skin,
-- excessive bloom,
-- glossy cinematic face rendering,
-- over-detailed hair strands,
-- over-sharpened line art,
-- painterly blur that destroys character identity.
-
-The image should feel like:
-
-> a polished illustration drawn from a manga / editorial character design language.
-
----
-
-# 11. Typography
-
-Typography should feel clean and editorial.
-
-Use a controlled combination of:
-
-- refined serif for selected large hero text,
-- modern sans-serif for interface text.
-
-Do not overuse serif.
-
-Recommended:
-
-- Hero greeting may use serif.
-- Navigation, metrics, labels, CTAs, dates, and system text should use sans-serif.
-
-Avoid:
-
-- too many font families,
-- decorative typography inside data surfaces,
-- excessive letter spacing on body text,
-- motivational micro-copy.
-
----
-
-# 12. Sidebar
-
-The sidebar should be quiet.
-
-It may be:
-
-- translucent,
-- lightly frosted,
-- borderless or use one subtle divider,
-- visually connected to the background.
-
-Background artwork may faintly remain visible behind it.
+The sidebar should feel like part of the application shell, not part of one wallpaper.
 
 Primary items:
 
@@ -499,21 +125,481 @@ Primary items:
 - Health
 - Context
 
-Do not fill the sidebar with:
-
-- product slogans,
-- system-status copy,
-- developer information,
-- fake shortcuts,
-- unnecessary secondary labels.
-
-Selected state should be obvious but restrained.
+Do not fill the sidebar with slogans, system status, or decorative copy.
 
 ---
 
-# 13. Home Structure
+# 4. Background Strategy
 
-Home has only two major content layers.
+ALLVERRA does **not** use one identical wallpaper for every route.
+
+The app shell stays consistent.
+
+The background changes at the **domain level**.
+
+```text
+Home
+→ Alverixx + Lyverra
+
+Study
+→ Lyverra-focused scene
+
+Health
+→ Alverixx-focused scene
+
+Context
+→ neutral / contextual scene
+```
+
+This allows each section to have its own personality while remaining part of one design system.
+
+---
+
+# 5. Home Background
+
+Home represents the shared ALLVERRA space.
+
+It should show both Alverixx and Lyverra.
+
+The preferred Home scene is a calm study / library environment with:
+
+- window light,
+- books,
+- shelves,
+- soft lavender-gray atmosphere,
+- subtle plants / foliage,
+- large negative space for UI,
+- visible but non-dominant character composition.
+
+The characters should feel naturally present in the room, not posed like a promotional poster.
+
+Preferred scene energy:
+
+- quiet,
+- familiar,
+- study-oriented,
+- slightly tired / relaxed,
+- visually soft.
+
+The study theme may be communicated through:
+
+- books,
+- table / desk,
+- notes,
+- shelves,
+- reading posture,
+- natural library context.
+
+Do not make the scene too literal or cluttered.
+
+---
+
+# 6. Study Background
+
+Study is Lyverra's domain.
+
+Study may use a Lyverra-only background.
+
+Visual direction:
+
+- muted violet,
+- lavender-gray,
+- books / study environment,
+- softer light,
+- contemplative composition,
+- calm cognitive atmosphere.
+
+Lyverra should not compete with detailed Study analytics.
+
+As the page becomes denser, her prominence may be reduced through:
+
+- cropping,
+- local fade,
+- softer contrast,
+- less central placement.
+
+The Study environment may differ from Home while preserving the same visual world.
+
+---
+
+# 7. Health Background
+
+Health is Alverixx's domain.
+
+Health may use an Alverixx-only background.
+
+Visual direction:
+
+- navy,
+- cool gray,
+- white,
+- structured light,
+- cleaner and more physical atmosphere.
+
+Health should feel slightly more analytical than Study.
+
+Do not force a gym aesthetic unless the data and future concept require it.
+
+The background may still feel quiet and personal.
+
+---
+
+# 8. Context Background
+
+Context does not require a character.
+
+It may use:
+
+- neutral environment,
+- quiet room detail,
+- calendar / life-context atmosphere,
+- soft gray composition.
+
+Character use is optional.
+
+Context should remain the least visually dominant domain.
+
+---
+
+# 9. Visual Hierarchy
+
+From strongest to quietest:
+
+1. **Primary UI content**
+2. **Current / relevant data**
+3. **Domain accent**
+4. **Character focal area**
+5. **Environmental background**
+6. **Decorative foliage / floral detail**
+7. **Ambient texture**
+
+Approximate visual-strength guidance:
+
+```text
+UI text + important data        100%
+Interactive states              90–100%
+Character focal area            70–85%
+Environment                     45–65%
+Foliage / floral detail         20–35%
+Ambient texture                 10–20%
+```
+
+These are visual targets, not strict CSS constants.
+
+Important:
+
+Do not reduce the entire Home image to low opacity.
+
+Character artwork is already soft by nature.
+
+Prefer local readability treatment over global image fading.
+
+---
+
+# 10. Negative Space
+
+Negative space should not mean empty white space.
+
+ALLVERRA negative space may still contain very subtle:
+
+- leaf shadows,
+- foliage silhouettes,
+- window light,
+- soft flower detail,
+- distant bookshelf structure,
+- light beams,
+- environmental texture.
+
+These elements must remain low contrast.
+
+The user should feel that the UI exists inside a room, not on top of a blank white canvas.
+
+---
+
+# 11. ALLVERRA Base Palette
+
+The shared foundation uses:
+
+- warm white,
+- off-white,
+- soft gray,
+- graphite,
+- charcoal,
+- restrained black.
+
+ALLVERRA is neutral-based, but not monochrome.
+
+The global atmosphere may carry a soft lavender-gray tint.
+
+Avoid pure white dominating the entire interface.
+
+---
+
+# 12. Domain Color Language
+
+## Study / Lyverra
+
+Primary:
+
+- muted violet,
+- lavender,
+- soft desaturated purple.
+
+Use for:
+
+- contribution cells,
+- progress,
+- Study icon states,
+- selected days,
+- Study CTA,
+- small accents.
+
+Study should clearly contain visible violet.
+
+---
+
+## Health / Alverixx
+
+Primary:
+
+- deep navy,
+- steel blue,
+- cool gray,
+- blue-white.
+
+Use for:
+
+- movement bars,
+- Health state,
+- selected day,
+- metric emphasis,
+- Health CTA.
+
+Health should clearly read as blue/navy rather than neutral gray.
+
+---
+
+## Context
+
+Context does not need one dominant accent color.
+
+The base remains neutral gray.
+
+Individual event markers may use semantic colors.
+
+Examples:
+
+```text
+Study / academic      → violet
+Meeting / information → blue
+Deadline / urgent     → red
+Personal / activity   → yellow
+Neutral / free time   → gray
+```
+
+The exact mapping may evolve.
+
+Important:
+
+- colors must represent meaning,
+- do not assign random colors per render,
+- event color semantics must be consistent,
+- empty days remain neutral.
+
+Context should use color through events, not through the entire section.
+
+---
+
+# 13. Material Language
+
+Glass is a material, not a layout strategy.
+
+Use glass to improve:
+
+- separation,
+- readability,
+- local focus,
+- interaction.
+
+Preferred:
+
+- translucent neutral surface,
+- background still faintly visible,
+- subtle blur,
+- thin low-contrast border,
+- minimal shadow.
+
+Avoid:
+
+- opaque white SaaS cards,
+- strong blue glass,
+- thick glowing borders,
+- excessive shadows.
+
+Study, Health, and Context do not need identical surface treatments.
+
+---
+
+# 14. Character Identity
+
+Character model sheets are canonical.
+
+Generated wallpapers are composition references only.
+
+Do not infer permanent character identity from a generated scene.
+
+---
+
+## 14.1 Alverixx
+
+Preserve:
+
+- white / silver-white hair,
+- calm / detached expression,
+- slim young male proportions,
+- gray / white / black clothing language,
+- long gray coat when using the established outfit,
+- white shirt,
+- dark trousers,
+- right eye cool blue,
+- left eye muted gray,
+- subtle left-eye corneal damage.
+
+Character energy:
+
+- quiet,
+- calm,
+- distant,
+- stylish,
+- his own pace.
+
+Avoid:
+
+- heroic posing,
+- generic glossy anime face,
+- cyberpunk exaggeration,
+- excessive emotion.
+
+---
+
+## 14.2 Lyverra
+
+Preserve:
+
+- very long loose black hair,
+- natural straight / soft flow,
+- subtle violet undertone,
+- slim face,
+- calm narrow-soft eyes,
+- soft brown eyes,
+- muted violet cardigan,
+- white inner layer,
+- black lower garment,
+- calm older-sister presence.
+
+Avoid:
+
+- invented ponytail,
+- invented ribbon,
+- bright violet eyes,
+- aggressive / yandere expression,
+- unrelated accessories,
+- glossy AI-anime treatment.
+
+---
+
+# 15. Character Relationship on Home
+
+Lyverra is the older sister.
+
+Alverixx is the younger sibling.
+
+Home artwork may show:
+
+- quiet companionship,
+- shared study environment,
+- relaxed poses,
+- natural physical spacing,
+- non-performative body language.
+
+Do not reinterpret the relationship romantically.
+
+The pair should feel familiar, calm, and lived-in.
+
+---
+
+# 16. Character Art Style
+
+Target:
+
+**clean editorial manga illustration with soft matte texture**
+
+Preferred:
+
+- human-looking linework,
+- visible drawing structure,
+- desaturated color,
+- soft shadows,
+- matte rendering,
+- subtle paper / brush texture,
+- restrained highlights.
+
+Avoid:
+
+- glossy AI-anime rendering,
+- plastic skin,
+- excessive bloom,
+- hyper-detailed hair,
+- painterly blur that changes identity.
+
+---
+
+# 17. Typography
+
+Typography should feel clean and editorial.
+
+Use:
+
+- refined serif for selected hero / greeting text,
+- modern sans-serif for interface text.
+
+Recommended:
+
+- Hero greeting may use serif.
+- Navigation, metrics, labels, dates, CTAs, and system text should use sans-serif.
+
+Avoid:
+
+- too many font families,
+- decorative typography inside data surfaces,
+- oversized wordmarks.
+
+---
+
+# 18. ALLVERRA Wordmark
+
+The ALLVERRA ROOM wordmark should remain subtle.
+
+It is product identity, not the visual focal point.
+
+Use:
+
+- modest size,
+- restrained tracking,
+- high enough contrast to read,
+- but lower visual weight than the Hero greeting.
+
+Do not let the wordmark compete with:
+
+- greeting,
+- current highlight,
+- character artwork.
+
+---
+
+# 19. Home Structure
+
+Home contains two main layers:
 
 ## Layer 1 — Now / Hero
 
@@ -521,13 +607,11 @@ Contains:
 
 - date,
 - greeting,
-- one relevant highlight,
+- compact current highlight,
 - optional CTA,
-- character artwork / atmosphere.
+- Home artwork.
 
-The hero must remain cleaner than a dashboard.
-
-Do not put multiple competing statistics in the hero.
+The Hero remains compact.
 
 ---
 
@@ -535,407 +619,428 @@ Do not put multiple competing statistics in the hero.
 
 Contains:
 
-- Study weekly signal,
-- Health weekly signal,
-- Context weekly signal.
+- Study,
+- Health,
+- Context.
+
+Home shows the current week only.
 
 No month.
 
 No year.
 
-No all-time.
+No all-time analytics.
 
 ---
 
-# 14. Current Highlight
+# 20. Current Highlight
 
-The Hero highlight should be compact.
+The current highlight should be compact and readable.
 
 Example:
 
 ```text
 Study
-Mathematics
+TKA Mathematics
 Conditional Probability
 50%
 ```
 
-Use the least UI necessary to communicate this.
-
 Possible treatment:
 
-- soft translucent panel,
-- borderless text block,
-- subtle accent line,
-- compact progress indicator.
+- light translucent glass,
+- visible violet Study accent,
+- compact progress,
+- restrained border.
 
-Do not make the highlight a giant dashboard card.
-
-The relevant domain may change in the future.
+Do not make it a giant dashboard card.
 
 ---
 
-# 15. Weekly Layout
+# 21. Home Weekly Composition
 
-The weekly area must not become three duplicated cards.
+The primary Home reference establishes the preferred composition.
 
-Each domain gets a visual form appropriate to its data.
-
-The layout may be asymmetric.
-
-Study and Health may receive more visual weight than Context.
-
----
-
-# 16. Study Weekly Visual
-
-Study uses a contribution-inspired visualization.
-
-Show exactly seven current-week days.
-
-Example:
+Desktop:
 
 ```text
-Mon  Tue  Wed  Thu  Fri  Sat  Sun
- □    ░    ▒    ▓    █    ░    □
+Study        Health
+Context spans below
 ```
 
-The boxes represent Study activity intensity toward a daily target.
+Study and Health share the main weekly row.
 
-They do not represent Git commits.
+Context runs horizontally below them.
 
-Possible intensity states:
+Do not return to:
 
-- unrecorded,
-- low activity,
-- medium activity,
-- target reached.
+```text
+large Study left
++
+Health / Context stacked right
+```
 
-Use violet as the active language.
-
-Keep labels minimal.
-
-Possible supporting data:
-
-- subject,
-- topic,
-- weekly minutes,
-- current progress.
-
-CTA:
-
-`Open study →`
+That legacy composition is no longer preferred.
 
 ---
 
-# 17. Health Weekly Visual
+# 22. Study Weekly Visual
 
-Health must use a different visual language from Study.
+Study uses a 7-day contribution-style visualization.
 
-Possible forms:
+Use violet intensity.
 
-- slim vertical movement bars,
-- rhythm strip,
-- pulse-like weekly indicators,
-- compact movement curve.
+Do not fabricate daily Study history.
 
-Use navy + gray.
+If history is unavailable:
 
-Supporting highlights may include:
+- show unrecorded / unknown states honestly,
+- preserve the contribution structure,
+- avoid pretending every day has data.
+
+Supporting information may include:
+
+- overall progress,
+- subject,
+- topic,
+- weekly duration when real.
+
+---
+
+# 23. Health Weekly Visual
+
+Health uses a different grammar from Study.
+
+Preferred:
+
+- vertical rhythm bars,
+- physical activity indicators,
+- navy / blue states.
+
+Possible supporting metrics:
 
 - steps,
 - resting HR,
 - sleep,
 - movement duration.
 
-Do not show too many metrics at once.
+Do not fabricate metrics.
 
-Recommended Home maximum:
-
-**2–3 health highlights.**
-
-CTA:
-
-`Open health →`
+If data is unavailable, keep the structure but show a quiet unavailable state.
 
 ---
 
-# 18. Context Weekly Visual
+# 24. Context Weekly Visual
 
-Context should be the quietest weekly domain.
+Context uses a horizontal timeline.
 
-Use a timeline / calendar-like visual.
+Event markers may contain semantic colors.
 
-Days may remain empty if no event exists.
+Prefer:
 
-State language:
+- small colored dot,
+- event label,
+- optional time,
+- neutral line underneath.
 
-- past event → muted,
-- current / today → clear,
-- upcoming → visible outline / light emphasis.
+Do not fill every day.
 
-Events should only appear where real or fixture data exists.
+No event means visually quiet.
 
-Do not fill every day artificially.
-
-CTA:
-
-`Open context →`
-
-Context may be visually flatter and less card-like than Study or Health.
+The Home reference may contain example events, but implementation must use real or explicitly fixture data only.
 
 ---
 
-# 19. CTA Behavior
+# 25. CTA Behavior
 
-Each Home domain should have a small doorway into its dedicated section.
-
-Examples:
+Use small doorway cues:
 
 - `Open study →`
 - `Open health →`
 - `Open context →`
 
-CTA should not dominate the module.
+Keep CTAs visible but secondary.
 
-Avoid large primary buttons unless an action truly requires one.
-
-Do not create a CTA if its destination does not exist.
+Do not use oversized primary buttons for navigation.
 
 ---
 
-# 20. Whitespace
-
-Whitespace is a required part of the design.
-
-Do not treat empty space as unfinished.
-
-The Home layout should leave breathing room around:
-
-- greeting,
-- highlight,
-- weekly modules,
-- character artwork.
-
-The interface should remain usable at 100% browser zoom without requiring zoom-out to understand the composition.
-
-Avoid excessively tall hero sections that push the weekly overview too far below the fold.
-
----
-
-# 21. Responsive Behavior
+# 26. Responsive Behavior
 
 Desktop is the primary V0.1 target.
 
-The layout should still degrade cleanly on smaller widths.
+On smaller widths:
 
-On narrower screens:
-
-- artwork may crop more aggressively,
-- character art may reduce in prominence,
-- weekly sections may stack,
+- background may crop,
+- character prominence may reduce,
+- weekly modules may stack,
+- atmosphere may simplify,
 - sidebar may collapse,
-- background detail should be reduced.
+- readability takes priority.
 
-Data readability always wins over artwork preservation.
+Do not globally shrink everything.
 
 ---
 
-# 22. Motion
+# 27. Motion
 
-Motion should be subtle.
+Use subtle motion only.
 
 Allowed:
 
-- soft hover transitions,
-- small opacity change,
-- gentle surface lift,
+- small hover transitions,
+- opacity change,
 - compact progress animation,
-- low-key background parallax only if inexpensive and optional.
+- very restrained background motion if later added.
 
 Avoid:
 
+- floating cards,
 - constant decorative animation,
-- large floating elements,
-- exaggerated card motion,
-- motion that makes the product feel game-like.
+- game-like transitions.
 
-Respect reduced-motion preferences.
+Respect reduced-motion settings.
 
 ---
 
-# 23. Empty States
+# 28. Empty States
 
 Empty states should remain quiet.
 
-Good:
+Examples:
 
 ```text
 No movement data yet.
+No context data yet.
 ```
 
-Better when the visual itself can communicate emptiness without a large message.
+Do not invent data.
 
-Avoid giant empty-state cards.
-
-Do not use motivational filler.
+Do not use giant decorative empty states.
 
 ---
 
-# 24. Loading & Error States
+# 29. Loading & Error States
 
-Loading should preserve layout stability.
+Keep layout stable.
 
-Avoid replacing entire sections with large spinners.
+Avoid full-screen spinners.
 
-Errors should be clear and local.
-
-Example:
-
-```text
-Study data unavailable.
-Try again
-```
-
-Previously persisted data should remain visible where safe.
+Errors should be local and preserve previously saved data when safe.
 
 ---
 
-# 25. Accessibility
+# 30. Accessibility
 
 Maintain:
 
-- sufficient text contrast,
-- visible focus states,
-- keyboard-accessible navigation,
-- readable font sizes,
-- non-color-only state indicators when necessary,
-- reduced-motion support.
+- readable contrast,
+- keyboard navigation,
+- focus states,
+- sufficient type size,
+- reduced motion,
+- non-color-only meaning when required.
 
-Background artwork must never reduce critical text readability.
-
----
-
-# 26. Implementation Rules for Codex
-
-When implementing a visual reference:
-
-1. reproduce the hierarchy, not every pixel;
-2. preserve real data behavior;
-3. do not invent data to match a mockup;
-4. use reusable tokens;
-5. do not hardcode visual noise into components;
-6. keep background assets separate from UI logic;
-7. keep character artwork replaceable;
-8. avoid tying component structure to one wallpaper;
-9. preserve responsive behavior;
-10. keep the Home page lightweight.
+Semantic event colors should be accompanied by labels / context.
 
 ---
 
-# 27. Asset Layering Recommendation
+# 31. Asset Roles
 
-Recommended layer model:
+Use clear asset roles.
+
+Recommended repository structure:
 
 ```text
-Layer 5 — Interactive UI
-Layer 4 — Glass / readable foreground surfaces
-Layer 3 — Character artwork
-Layer 2 — Environment / foliage
-Layer 1 — Base background / ambient tone
+apps/web/public/images/allverra/
+├─ home-background.png
+├─ study-background.png        # future
+├─ health-background.png       # future
+└─ context-background.png      # optional future
+
+docs/assets/characters/
+├─ alverixx-reference.png
+└─ lyverra-reference.png
+
+docs/assets/references/
+└─ home-ui-reference.png
 ```
-
-A character or environmental asset should never contain required UI text.
-
-This allows:
-
-- artwork replacement,
-- responsive cropping,
-- opacity tuning,
-- theme adjustment,
-- future day/night variants.
 
 ---
 
-# 28. CSS / Rendering Strategy
+## 31.1 `home-background.png`
 
-Prefer separate controllable layers rather than a single flattened screenshot when possible.
+This is the **runtime Home background**.
 
-Example concept:
+It must contain:
+
+- environment,
+- Alverixx + Lyverra,
+- no UI,
+- no app text,
+- no fake metrics.
+
+Use the approved clean background-only image.
+
+This asset belongs in:
 
 ```text
-base background
-+
-hero/environment image
-+
-masked character artwork
-+
-subtle overlay
-+
-UI
+apps/web/public/images/allverra/home-background.png
 ```
 
-If a flattened background asset is used, it should already provide:
+---
 
-- left-side negative space,
-- lower negative space,
-- low-detail UI zones.
+## 31.2 `home-ui-reference.png`
 
-CSS may then add only small readability adjustments.
+This is the **primary Home composition reference**.
+
+It contains the UI and is used to communicate:
+
+- layout,
+- hierarchy,
+- surface transparency,
+- spacing,
+- Study / Health / Context balance,
+- sidebar treatment,
+- relative artwork prominence.
+
+It is NOT a runtime asset.
+
+It must not be rendered directly.
+
+Store it in:
+
+```text
+docs/assets/references/home-ui-reference.png
+```
+
+The current approved reference is the version with:
+
+- plain neutral sidebar,
+- compact ALLVERRA ROOM wordmark,
+- Hero in the upper-left,
+- Study and Health side by side,
+- Context below,
+- visible lavender-gray atmosphere,
+- translucent cards,
+- no decorative flowers belonging to the navbar.
 
 ---
 
-# 29. Home Visual Rule
+## 31.3 Character Reference Sheets
 
-Before approving a Home design, ask:
+Character sheets are canonical identity references.
 
-### A. Can I identify the current important information immediately?
+Store:
 
-If no:
-reduce background or decorative strength.
+```text
+docs/assets/characters/alverixx-reference.png
+docs/assets/characters/lyverra-reference.png
+```
 
-### B. Can I understand this week without opening another page?
-
-If no:
-improve weekly visual clarity.
-
-### C. Does each domain feel different because its data is different?
-
-If no:
-stop duplicating card patterns.
-
-### D. Does it still look like one product?
-
-If no:
-strengthen shared typography, spacing, materials, and base palette.
-
-### E. Does removing the artwork still leave a usable app?
-
-If no:
-the artwork is carrying too much product meaning.
+These are not runtime UI assets unless explicitly needed later.
 
 ---
 
-# 30. V0.1 Home Acceptance Criteria
+# 32. Asset Priority During Implementation
 
-The Home design is acceptable when:
+For Home implementation:
 
-- the greeting is immediately readable,
-- the hero highlight is compact,
-- artwork stays visually secondary,
-- character identity remains accurate,
-- left and lower areas retain enough negative space,
-- weekly Study shows 7-day activity,
-- Health uses a distinct visual grammar,
-- Context is quieter,
-- CTAs are visible but understated,
-- background does not overpower UI,
-- the page feels complete at normal browser zoom,
-- no section exists only as decorative filler,
-- no duplicated card system dominates the page.
+```text
+1. PRODUCT.md / DESIGN.md rules
+2. home-ui-reference.png for composition
+3. home-background.png for runtime atmosphere
+4. character sheets for identity
+5. existing implementation for behavior only
+```
+
+If the old implementation conflicts with the approved Home visual composition:
+
+preserve behavior, not the old layout.
+
+---
+
+# 33. Implementation Rules for Codex
+
+When implementing visual work:
+
+1. preserve real data behavior;
+2. use the approved UI reference as the composition target;
+3. use the background-only asset at runtime;
+4. do not reproduce fake metrics from the reference;
+5. keep character sheets canonical;
+6. do not globally bleach the background;
+7. keep navbar visually neutral;
+8. keep Study visibly violet;
+9. keep Health visibly navy/blue;
+10. give Context semantic event colors only when data supports them;
+11. preserve whitespace with subtle atmosphere;
+12. avoid opaque white dashboard cards;
+13. avoid unrelated layout refactors;
+14. preserve accessibility and responsive behavior.
+
+---
+
+# 34. Home Visual Acceptance Check
+
+Before approving Home, verify:
+
+### A. Is the greeting immediately readable?
+If no, improve local readability.
+
+### B. Is the background clearly visible?
+If no, artwork has been over-muted.
+
+### C. Does the background overpower the UI?
+If yes, reduce it locally.
+
+### D. Does negative space still contain atmosphere?
+If no, it has become too sterile.
+
+### E. Is Study visibly violet?
+If no, strengthen Study color language.
+
+### F. Is Health visibly navy / blue?
+If no, strengthen Health color language.
+
+### G. Does Context use event colors meaningfully?
+If no, keep it neutral until real events exist.
+
+### H. Are Study and Health side by side?
+If no, composition has drifted from the approved reference.
+
+### I. Is Context horizontal below them?
+If no, composition has drifted.
+
+### J. Is the ALLVERRA ROOM wordmark secondary?
+If no, reduce its visual weight.
+
+### K. Does the navbar remain plain and reusable across domains?
+If no, remove environment-specific decoration.
+
+---
+
+# 35. V0.2 Home Acceptance Criteria
+
+Home is visually acceptable when:
+
+- the navbar is clean and environment-independent,
+- the ALLVERRA ROOM wordmark is understated,
+- Hero text is readable,
+- background is visible and smooth,
+- Alverixx + Lyverra remain secondary to UI but clearly present,
+- subtle foliage / lighting survives in negative space,
+- Study and Health share the weekly row,
+- Study visibly uses violet,
+- Health visibly uses navy / blue,
+- Context spans below,
+- event colors are semantic rather than random,
+- surfaces are translucent rather than opaque white,
+- the interface feels personal rather than SaaS-generic,
+- no fake data is introduced to match visual references.
 
 ---
 
 ## Design rule in one sentence
 
-> **ALLVERRA should feel like a quiet personal room whose data happens to be beautifully organized — not a dashboard decorated with characters.**
+> **ALLVERRA should feel like a calm personal room where each domain has its own atmosphere, while the app shell stays clean, consistent, and unmistakably secondary to the information that matters.**

@@ -208,6 +208,15 @@ export default function Dashboard() {
 
   return (
     <div className="app-shell">
+      <div className="home-wallpaper" aria-hidden="true">
+        <Image
+          src="/images/allverra/home-background.png"
+          alt=""
+          fill
+          sizes="100vw"
+          preload
+        />
+      </div>
       <a className="skip-link" href="#overview">
         Skip to Home
       </a>
@@ -251,15 +260,6 @@ export default function Dashboard() {
       </aside>
 
       <div className="home-workspace">
-        <div className="home-wallpaper" aria-hidden="true">
-          <Image
-            src="/images/blue-hour.png"
-            alt=""
-            fill
-            sizes="(max-width: 600px) 100vw, calc(100vw - 88px)"
-            preload
-          />
-        </div>
         <header className="topbar">
           <a
             href="#overview"
