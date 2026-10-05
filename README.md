@@ -215,9 +215,8 @@ The first usable prototype should include:
 - KRAVV frontend shell,
 - KRAVV backend,
 - Study card,
-- Health card,
-- Events card,
-- AI insight placeholder,
+- compact Health and Events disconnected states,
+- Settings for source, sync, backend, and integration details,
 - mock Study data,
 - local persistence,
 - one visible sync flow.
@@ -332,7 +331,7 @@ On macOS/Linux or WSL, use `npm` and `apps/api/.venv/bin/python` instead.
 ### Verify the Study loop
 
 1. A fresh database starts with **5/12 topics (42%)** from `initial-study.json`.
-2. Click **Sync Study data**. The mock connector reads `apps/api/fixtures/study.json`;
+2. Click **Sync** on Study. The mock connector reads `apps/api/fixtures/study.json`;
    the dashboard changes to **6/12 topics (50%)** and Conditional probability.
 3. Sync again: the status reports no new changes and no duplicate is created.
 4. Restart both services and reload: **6/12 (50%)** remains stored.
@@ -364,7 +363,8 @@ The build is a local validation step; it does not deploy anything.
 ### Current limitations
 
 - One mock course and its latest snapshot; no course catalog or activity history.
-- Health, Events, and AI are visible placeholders with no integration or generated content.
+- Health and Events show compact disconnected states; AI has no Home panel or generated content.
+- Technical details (including the mock Study source) are available through Settings.
 - No background sync, authentication, external connectors, or public hosting.
 
 Framework references: [Next.js installation](https://nextjs.org/docs/app/getting-started/installation)

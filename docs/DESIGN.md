@@ -26,6 +26,28 @@ KRAVV OS should feel:
 
 The interface should feel alive without becoming noisy.
 
+### Home principle
+
+**Information should be minimal. Personality should come from visual design,
+not excess copy.**
+
+Use a real raster wallpaper in the upper Home area, with a dark gradient overlay
+for legibility and a soft transition into the navy base. Selected glass surfaces
+float over that transition. Strong KRAVV blue, restrained indigo/violet light,
+typography, spacing, and meaningful motion carry the personality.
+
+Empty space is intentional. Do not fill it with motivational text, decorative
+charts, fake data, connection panels, or large placeholders. Home has two time
+horizons: **Now** in the atmospheric hero and **This Week** below it. Home is for
+a glance; domain sections are for understanding; Insights are for investigation.
+Wallpaper and greeting are the emotional anchor. The hero has no permanently
+dominant domain. Study currently supplies its one real signal. The weekly area
+keeps subtle visual structure for Study, Health/Movement, and Context/Events
+even when some data is unavailable. Hide empty-state content, not necessarily
+the domain itself. AI presence is optional and omitted until useful.
+Source/mock indicators, last-sync details, backend status, and provider connections
+belong in Settings or a future developer view.
+
 ---
 
 ## 2. Relationship to KRAVVIENT
@@ -173,27 +195,26 @@ Motion should usually feel soft and controlled rather than fast or flashy.
 
 KRAVV OS should feel like one workspace rather than a collection of unrelated pages.
 
-Desktop-first layout:
+Current desktop Home layout:
 
 ```text
-┌───────────────┬───────────────────────────────────┬─────────────────┐
-│               │                                   │                 │
-│   Sidebar     │          Main Workspace           │   Context Rail  │
-│               │                                   │                 │
-│ Home          │  Greeting / Context               │ KRAVV AI        │
-│ Study         │                                   │                 │
-│ Health        │  Study   Health   Events          │ System Status   │
-│ Events        │                                   │                 │
-│ Notes         │  Focus / Tasks / Modules          │ Optional cards  │
-│ AI            │                                   │                 │
-│ Settings      │                                   │                 │
-│               │                                   │                 │
-└───────────────┴───────────────────────────────────┴─────────────────┘
+Navigation rail | Now: wallpaper / date / greeting / one relevant signal
+Home            | This Week: Study activity / Movement rhythm / Context timeline
+Study           |
+Settings        |
 ```
 
-The right context rail is optional on smaller screens.
+The atmospheric opening remains the visual center. The hero signal sits within
+the wallpaper transition without a large card. This Week is one composition
+with distinct visual forms, not three equal cards. There is no system/AI context
+rail on Home. The weekly parts stack on smaller screens; navigation moves to
+the bottom on mobile. Existing Settings and Commands dialogs are outside this
+Home refinement.
 
-The main workspace should remain the visual center.
+Weekly surfaces use neutral, low-opacity frosted glass with moderate corners.
+Each carries a small text-and-arrow doorway cue. Study links to the existing
+`#study` section; Movement and Context cues remain non-interactive until real
+destinations exist. Only working links receive hover/focus feedback.
 
 ---
 
@@ -229,65 +250,79 @@ Inactive or unimplemented sections should not clutter the interface.
 
 ---
 
-## 6. Home Dashboard
+## 6. Home Arrival Layer
 
-The Home dashboard should answer:
+Home should answer at a glance:
 
 > What matters to me right now?
 
 It should not attempt to show every available metric.
 
-Suggested V0.1 structure:
+V0.1 structure:
 
 ```text
-Greeting / Time Context
+Now: wallpaper + greeting / date + one current signal
         ↓
-Study | Health | Events
-        ↓
-Today's Focus
-        ↓
-AI Insight
-        ↓
-Optional Quick Tools / Music / System Status
+This Week: compact weekly visual structure for Study, Movement, Context
 ```
 
-### Study Card
+### Study Highlight
 
 Should prioritize:
 
 - current subject/course
-- progress
+- compact progress only when useful
 - current topic
 - recent activity
-- next useful action
+- Continue when a real destination exists
 
 Avoid turning it into a miniature LMS.
 
+Study is the first working integration, not the permanent visual owner of Home.
+Use a compact course/topic treatment; keep progress subordinate and sync secondary.
+Continue is intentionally omitted in the current implementation because there is
+no separate Study page or lesson URL. Do not create a pretend navigation action.
+Do not repeat progress in an ornamental chart. Sync success is a brief, transient
+acknowledgment; error feedback stays visible with technical details available in Settings.
+
+In This Week, Study uses seven contribution-style day marks. The current model
+has aggregate progress and one `last_activity` timestamp, not daily history.
+Mark that day only when it falls in the current week; leave all other days
+unrecorded rather than implying confirmed inactivity or inventing intensity.
+
 ---
 
-### Health Card
+### Health Highlight
+
+In V0.1, Health has no dataset. Its weekly movement rhythm stays neutral and
+unrecorded, with no invented levels or trends. Connection status remains in
+Settings. Do not use a large disconnected card.
 
 Should prioritize:
 
-- one readable summary
-- a few current metrics
-- recent trend or baseline
-- sync state
+- one currently relevant signal when real data exists
+- morning: sleep; daytime: movement/activity; evening: daily recap, when supported
+- a presentation appropriate to that signal, not a copy of the Study highlight
 
 Avoid presenting health data as diagnosis.
 
 ---
 
-### Events Card
+### Context / Events Highlight
+
+In V0.1, Context has no event dataset. Its weekly calendar/timeline structure
+remains empty, with no invented events, deadlines, or completed activities.
 
 Should prioritize:
 
-- today
-- upcoming commitments
-- deadlines
-- short calendar context
+- the next relevant event, deadline, or daily context when real data exists
+- a concise line or other contextual format rather than another equal module card
 
 Avoid displaying an entire complex calendar when a short daily view is enough.
+
+Month, semester, year, detailed activity histories, long-term trends, and
+showcase surfaces belong in domain pages or future dedicated surfaces. Home
+shows only now and the current week.
 
 ---
 
@@ -309,6 +344,9 @@ Possible contextual elements:
 - AI-generated daily brief
 
 These elements should support the current context rather than compete for attention.
+
+For current Home, use greeting/date and available contextual highlights. Do not
+add the other examples to fill space; quotes and slogans are not part of Home.
 
 ---
 
@@ -352,6 +390,9 @@ KRAVV OS should never become visually unpredictable.
 ## 9. AI Presence
 
 KRAVV AI should feel embedded in the system.
+
+V0.1 has no Home AI panel or artificial activity indicator. Its disconnected
+status is visible in Settings. The following patterns are future possibilities.
 
 Avoid the default pattern of a generic floating chatbot bubble.
 
@@ -565,6 +606,10 @@ Avoid assigning completely unrelated colors to every module.
 
 ## 17. Interaction Behavior
 
+Home is for a glance. A highlight may offer a real domain destination and a
+secondary action, but it must not become a domain workspace. The card examples
+below apply where those domain surfaces actually exist.
+
 Cards should generally support three levels of interaction:
 
 ```text
@@ -588,6 +633,11 @@ The dashboard should remain scannable.
 ---
 
 ## 18. Responsive Behavior
+
+Home keeps the wallpaper/greeting anchor at every size. The weekly composition
+stacks on narrow screens while preserving each domain's visual form. The
+card/context-rail/AI-panel patterns below are for future domain surfaces, not
+requirements to add those elements to Home.
 
 ### Desktop
 
@@ -684,24 +734,29 @@ For the first implementation, design only enough to establish the visual languag
 V0.1 should include:
 
 ```text
-Sidebar
-Command Bar
-Greeting / Context Header
-
-Study Card
-Health Card
-Events Card
-
-AI Insight Panel
-Today's Focus
-
-Optional:
-Quick Tools
-Music Mini Player
-System Status
+Compact navigation rail / mobile bottom navigation
+Upper wallpaper with dark overlay
+Greeting / date
+One contextual hero highlight when meaningful data is available
+Current-week Study activity, neutral Movement rhythm, empty Context timeline
+No permanent dominant domain or fixed three-module layout
+Commands shortcut
+Settings dialog for technical details
 ```
 
-Mock data is acceptable.
+Mock Study data is acceptable. Identify the source in Settings, not with a badge
+on Home. Do not add Today's Focus, AI insight placeholders, music controls, or
+system-status panels to this iteration. Health and Context retain quiet weekly
+structure without invented data; their connection status stays elsewhere. This pass changes no
+domain pages, Settings, integrations, models, or backend behavior.
+
+### Wallpaper asset
+
+`apps/web/public/images/blue-hour.png` was generated with the built-in imagegen
+tool and is served locally through Next.js Image. No remote image host is needed.
+The wallpaper is decorative and uses empty alt text. Generation prompt:
+
+> Use case: photorealistic-natural. Asset type: wide desktop wallpaper for the upper area of KRAVV OS, a personal digital environment. Create a beautiful photorealistic mountain landscape at blue hour, wide panoramic 16:9 composition. Layered rugged alpine ridgelines emerge from soft mist; a prominent detailed peak sits toward the right, the left third has calmer shadowed slopes and open sky so a short white greeting can be placed there later. Rich cobalt and deep KRAVV blue atmosphere, subtle indigo/violet light in the clouds, very restrained cool highlights on the rock. Natural photographic texture, cinematic but believable light, peaceful expansive negative space. Frame mountains in the middle and lower portions with a spacious dusk sky above. It must feel like a premium personal desktop wallpaper, not a business website. Image only: no text, logos, UI, cards, grids, charts, people, buildings, glowing orbs, sci-fi objects, or neon. Landscape 2048x1152 if possible.
 
 The goal is to answer:
 

@@ -199,21 +199,33 @@ The first version is intentionally small.
 
 The implementation uses Next.js + TypeScript, FastAPI, and local SQLite.
 Study is the only functional domain in this milestone and uses a mock source.
-Health, Events, and AI are explicitly labeled placeholders. There is no real AI,
-external provider integration, production deployment, or multi-user service.
-Today's Focus is a direct view of the mock Study topic, not a generated insight.
-The command bar provides only local navigation, Study sync, and refresh.
+Health and Events have no meaningful data yet; Home gives them quiet weekly
+visual structure without inventing values.
+AI remains unimplemented and does not require a Home panel. There is no real AI, external provider
+integration, production deployment, or multi-user service.
+Home covers **Now** and **This Week**: **Home = glance; domain section =
+understand; Insights = investigate.** Wallpaper and greeting anchor Now, with
+one relevant signal and no permanently dominant domain. Study currently shows
+course/topic, subordinate progress, and a secondary sync action. Continue is
+deferred until a real destination exists. This Week uses distinct forms for
+Study activity, Movement rhythm, and Context timeline, not three equal cards.
+Study can mark its one known `last_activity` day in the current week; other
+days are unrecorded. Health and Context stay neutral until data exists. Show
+signal, hide meaningless empty-state content, and preserve sparse structure.
+Wallpaper, glass, typography, and space establish Home's personality. Motivational
+copy, duplicate focus summaries, mock badges, and connection diagnostics stay off Home.
+Settings contains source, last sync, backend connection, and integration status.
+Commands provide Home/Study navigation, Study sync, and Settings access.
 
 The first real Study connector follows this milestone; it is not part of this implementation.
 
 ### Must exist
 
 - basic KRAVV OS frontend shell,
-- dashboard,
-- Study card,
-- Health card,
-- Events card,
-- AI insight placeholder,
+- atmospheric Home with contextual highlights,
+- a current-week overview with honest Study activity and neutral Health/Context structure,
+- compact Study summary while meaningful Study data is available,
+- Settings for connection details (including AI's disconnected state),
 - backend connection,
 - simple internal data model,
 - dummy/mock data,
@@ -243,6 +255,10 @@ Current topic: Probability
 ```
 
 Once this works, a real Study connector can replace the mock source.
+
+Home does not include month or year history, detailed analytics, long-term
+trends, or portfolio/showcase views. Those belong to domain pages or dedicated
+future surfaces.
 
 ---
 
